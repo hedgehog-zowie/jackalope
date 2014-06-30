@@ -11,11 +11,12 @@
     <modules>
         <module>iplib</module>
         <module>jackaweb</module>
+        <module>avro</module>
     </modules>
 
     <properties>
         <junit.version>4.11</junit.version>
-        <sfl4j.version>1.7.6</sfl4j.version>
+        <sfl4j.version>1.7.7</sfl4j.version>
     </properties>
 
     <dependencies>
@@ -29,11 +30,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>${sfl4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jackalope.study</groupId>
-            <artifactId>iplib</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
