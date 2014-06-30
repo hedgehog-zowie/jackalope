@@ -6,7 +6,35 @@
 
     <groupId>org.jackalope</groupId>
     <artifactId>study</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>iplib</module>
+        <module>jackaweb</module>
+    </modules>
 
+    <properties>
+        <junit.version>4.11</junit.version>
+        <sfl4j.version>1.7.6</sfl4j.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${sfl4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jackalope.study</groupId>
+            <artifactId>iplib</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>
