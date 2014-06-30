@@ -3,7 +3,6 @@ package org.jackalope.study.avro.HelloWorld;
 import org.apache.avro.Protocol;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
-import org.apache.avro.ipc.HttpTransceiver;
 import org.apache.avro.ipc.NettyTransceiver;
 import org.apache.avro.ipc.Transceiver;
 import org.apache.avro.ipc.generic.GenericRequestor;
@@ -12,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.URL;
 
 /**
  * Created by zowie on 14-7-1.
