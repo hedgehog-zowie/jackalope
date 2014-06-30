@@ -1,3 +1,5 @@
+package org.jackalope.study.avro;
+
 import org.apache.avro.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
