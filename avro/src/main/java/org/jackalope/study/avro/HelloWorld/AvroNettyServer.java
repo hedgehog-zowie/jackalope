@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-
 /**
  * Created by zowie on 14-7-1.
  */
@@ -21,31 +20,15 @@ public class AvroNettyServer extends GenericResponder {
 
     private static final Logger logger = LoggerFactory.getLogger(AvroNettyServer.class);
 
-//    private Server server;
-
     public AvroNettyServer(Protocol local) {
         super(local);
     }
 
-//    public AvroNettyServer(Protocol protocol) {
-//        super(protocol);
-//    }
-
-//    public void startServer() throws IOException, InterruptedException {
-//        server = new NettyServer(new AvroNettyServer());
-//    }
-
-//    public void stopServer() {
-//        server.close();
-//    }
-
     public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println("Starting server");
         Server server = new NettyServer(
-                new AvroNettyServer(Protocol.parse(
-                        new File(AvroNettyServer.class.getResource(AvroHttpServer.fileName).getPath()))),
+                new AvroNettyServer(Protocol.parse(AvroNettyServer.class.getResourceAsStream(AvroHttpServer.fileName))),
                 new InetSocketAddress(8089));
-//        ipcServer.startServer();
         System.out.println("Server started");
     }
 

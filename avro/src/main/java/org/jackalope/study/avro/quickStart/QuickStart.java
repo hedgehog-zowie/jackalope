@@ -21,14 +21,14 @@ public class QuickStart {
     private static Schema schema;
     private static final String fileName = "/user.json";
     private static String filepath;
-    private static File file;
+    private static final String nFileName = "/user.serialized";
+    private static File nfile;
 
     public QuickStart() throws IOException {
         filepath = QuickStart.class.getResource(fileName).getPath();
         schema = new Schema.Parser().parse(new File(filepath));
-        file = new File(filepath);
+        nfile = new File(nFileName);
     }
-
 
     /**
      * 序列化
@@ -38,16 +38,17 @@ public class QuickStart {
     public void serialize() throws IOException {
         GenericRecord user1 = new GenericData.Record(schema);
         user1.put("name", "Alyssa");
-        user1.put("favorite_number", 256);
+        user1.put("num_groups", 128);
 
         GenericRecord user2 = new GenericData.Record(schema);
         user2.put("name", "Ben");
-        user2.put("favorite_number", 7);
-        user2.put("favorite_color", "red");
+        user2.put("num_likes", 32);
+        user2.put("num_photos", 64);
+        user2.put("num_groups", 16);
 
         DatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<GenericRecord>(schema);
         DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord>(datumWriter);
-        dataFileWriter.create(schema, file);
+        dataFileWriter.create(schema, nfile);
         dataFileWriter.append(user1);
         dataFileWriter.append(user2);
         dataFileWriter.close();
@@ -60,7 +61,7 @@ public class QuickStart {
      */
     public void deserialize() throws IOException {
         DatumReader<GenericRecord> datumReader = new GenericDatumReader<GenericRecord>(schema);
-        DataFileReader<GenericRecord> dataFileReader = new DataFileReader<GenericRecord>(file, datumReader);
+        DataFileReader<GenericRecord> dataFileReader = new DataFileReader<GenericRecord>(nfile, datumReader);
         GenericRecord user = null;
         while (dataFileReader.hasNext()) {
             user = dataFileReader.next(user);
