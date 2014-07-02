@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 
 /**
  * @author Nicholas
@@ -17,18 +18,15 @@ public class NettyServer extends Server {
 
     private static final Logger logger = LoggerFactory.getLogger(NettyServer.class);
 
-    public NettyServer(Protocol protocol) {
-        super(protocol);
+    protected NettyServer(Protocol protocol) throws AvroServerException {
+        server = new org.apache.avro.ipc.NettyServer(
+                new Handler(protocol), new InetSocketAddress(Constants.DEFAULT_PORT));
     }
 
-    @Override
-    public void start() throws AvroServerException {
+    public NettyServer(String avprFile) throws AvroServerException {
+        File file = new File(NettyServer.class.getResource(avprFile).getPath());
         try {
-            server = new org.apache.avro.ipc.HttpServer(
-                    new HttpServer(Protocol.parse(new File(HttpServer.class.getResource(Constants.DEFAULT_AVPR).getPath()))),
-                    Constants.DEFAULT_PORT);
-            server.start();
-            server.join();
+            new NettyServer(Protocol.parse(file));
         } catch (IOException e) {
             String errorStr = new StringBuilder()
                     .append("start avro netty server failed, error msg: ")
@@ -37,23 +35,15 @@ public class NettyServer extends Server {
             logger.error(errorStr);
             throw new AvroServerException(errorStr);
         }
-        catch (InterruptedException e) {
-            String errorStr = new StringBuilder()
-                    .append("start avro netty serverl failed, error msg: ")
-                    .append(e.getMessage())
-                    .toString();
-            logger.error(errorStr);
-            throw new AvroServerException(errorStr);
-        }
     }
 
-    @Override
-    public void stop() throws AvroServerException {
-        try{
-            server.close();
-        }catch (Exception e){
+    public NettyServer() throws AvroServerException {
+        File file = new File(NettyServer.class.getResource(Constants.DEFAULT_AVPR).getPath());
+        try {
+            new NettyServer(Protocol.parse(file));
+        } catch (IOException e) {
             String errorStr = new StringBuilder()
-                    .append("stop avro netty server failed, error msg: ")
+                    .append("start avro netty server failed, error msg: ")
                     .append(e.getMessage())
                     .toString();
             logger.error(errorStr);

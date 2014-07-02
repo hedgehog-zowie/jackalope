@@ -17,18 +17,10 @@ public class HttpServer extends Server {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
-    public HttpServer(Protocol protocol) {
-        super(protocol);
-    }
-
-    @Override
-    public void start() throws AvroServerException {
+    protected HttpServer(Protocol protocol) throws AvroServerException {
         try {
             server = new org.apache.avro.ipc.HttpServer(
-                    new HttpServer(Protocol.parse(new File(HttpServer.class.getResource(Constants.DEFAULT_AVPR).getPath()))),
-                    Constants.DEFAULT_PORT);
-            server.start();
-            server.join();
+                    new Handler(protocol), Constants.DEFAULT_PORT);
         } catch (IOException e) {
             String errorStr = new StringBuilder()
                     .append("start avro http server failed, error msg: ")
@@ -37,9 +29,15 @@ public class HttpServer extends Server {
             logger.error(errorStr);
             throw new AvroServerException(errorStr);
         }
-        catch (InterruptedException e) {
+    }
+
+    public HttpServer(String avprFile) throws AvroServerException {
+        File file = new File(HttpServer.class.getResource(avprFile).getPath());
+        try {
+            new HttpServer(Protocol.parse(file));
+        } catch (IOException e) {
             String errorStr = new StringBuilder()
-                    .append("start avro http serverl failed, error msg: ")
+                    .append("start avro http server failed, error msg: ")
                     .append(e.getMessage())
                     .toString();
             logger.error(errorStr);
@@ -47,13 +45,13 @@ public class HttpServer extends Server {
         }
     }
 
-    @Override
-    public void stop() throws AvroServerException {
-        try{
-            server.close();
-        }catch (Exception e){
+    public HttpServer() throws AvroServerException {
+        File file = new File(HttpServer.class.getResource(Constants.DEFAULT_AVPR).getPath());
+        try {
+            new HttpServer(Protocol.parse(file));
+        } catch (IOException e) {
             String errorStr = new StringBuilder()
-                    .append("stop avro http server failed, error msg: ")
+                    .append("start avro http server failed, error msg: ")
                     .append(e.getMessage())
                     .toString();
             logger.error(errorStr);
