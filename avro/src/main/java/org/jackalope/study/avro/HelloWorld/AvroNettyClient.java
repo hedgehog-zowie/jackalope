@@ -32,6 +32,5 @@ public class AvroNettyClient {
             System.out.println(record.get("name"));
         }
         System.out.println(result);
-
     }
 }

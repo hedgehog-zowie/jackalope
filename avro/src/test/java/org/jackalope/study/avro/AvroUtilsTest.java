@@ -1,5 +1,6 @@
 package org.jackalope.study.avro;
 
+import com.iuni.data.avro.common.AvroUtils;
 import org.apache.avro.Schema;
 import org.apache.avro.file.DataFileReader;
 import org.apache.avro.file.DataFileWriter;
@@ -11,9 +12,6 @@ import org.apache.avro.io.*;
 import org.apache.avro.util.Utf8;
 import org.junit.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.EOFException;
 import java.io.File;
 
 public class AvroUtilsTest {

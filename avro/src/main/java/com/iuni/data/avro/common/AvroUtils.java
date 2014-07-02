@@ -1,4 +1,4 @@
-package org.jackalope.study.avro;
+package com.iuni.data.avro.common;
 
 import org.apache.avro.Schema;
 import org.slf4j.Logger;
@@ -14,9 +14,9 @@ import java.util.Map;
 /**
  *  avro工具类
  * 实现avro模式组件化、继承、多态，向后兼容
- * Created by Nicholas on 2014/6/30 0030.
+ * @author Nicholas
+ *         Email:   nicholas.chen@iuni.com
  */
-
 public class AvroUtils {
     private static final Logger logger = LoggerFactory.getLogger(AvroUtils.class);
 

@@ -33,7 +33,7 @@ public class AvroNettyServer extends GenericResponder {
     }
 
     @Override
-    public Object respond(Protocol.Message message, Object request) throws Exception {
+      public Object respond(Protocol.Message message, Object request) throws Exception {
         GenericRecord req = (GenericRecord) request;
         GenericRecord reMessage = null;
         if (message.getName().equals("sayHello")) {
