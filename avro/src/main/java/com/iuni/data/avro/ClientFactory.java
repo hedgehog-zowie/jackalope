@@ -5,6 +5,7 @@ import com.iuni.data.avro.client.ClientType;
 import com.iuni.data.avro.common.Constants;
 import com.iuni.data.avro.exceptions.AvroException;
 import com.iuni.data.avro.exceptions.AvroServerException;
+import org.apache.avro.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,20 +21,21 @@ public class ClientFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientFactory.class);
 
-    public static Client create(String name, String type) throws AvroException {
-        return create(name, Constants.DEFAULT_HOST, Constants.DEFAULT_PORT, type);
+    public static Client create(String name, Protocol protocol, String type) throws AvroException {
+        return create(name, protocol, Constants.DEFAULT_HOST, Constants.DEFAULT_PORT, type);
     }
 
-    public static Client create(String name, Integer port, String type) throws AvroException {
-        return create(name, Constants.DEFAULT_HOST, port, type);
+    public static Client create(String name, Protocol protocol, Integer port, String type) throws AvroException {
+        return create(name, protocol, Constants.DEFAULT_HOST, port, type);
     }
 
-    public static Client create(String name, String host, String type) throws AvroException {
-        return create(name, host, Constants.DEFAULT_PORT, type);
+    public static Client create(String name, Protocol protocol, String host, String type) throws AvroException {
+        return create(name, protocol, host, Constants.DEFAULT_PORT, type);
     }
 
-    public static Client create(String name, String host, Integer port, String type) throws AvroException {
+    public static Client create(String name, Protocol protocol, String host, Integer port, String type) throws AvroException {
         Preconditions.checkNotNull(name, "name");
+        Preconditions.checkNotNull(protocol, "protocol");
         Preconditions.checkNotNull(host, "host");
         Preconditions.checkNotNull(port, "port");
         Preconditions.checkNotNull(type, "type");
@@ -41,7 +43,7 @@ public class ClientFactory {
         Class<? extends Client> clientClass = getClass(type);
         Constructor<?> constructor;
         try {
-            constructor = clientClass.getConstructor(String.class, Integer.class);
+            constructor = clientClass.getConstructor(String.class, Integer.class, Protocol.class);
             constructor.setAccessible(true);
         } catch (NoSuchMethodException e) {
             String errorStr = new StringBuilder()
@@ -53,7 +55,7 @@ public class ClientFactory {
         }
         try {
 //            Client client = clientClass.newInstance();
-            Client client = (Client) constructor.newInstance(host, port);
+            Client client = (Client) constructor.newInstance(host, port, protocol);
             client.setName(name);
             return client;
         } catch (Exception e) {

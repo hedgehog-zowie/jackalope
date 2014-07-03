@@ -1,6 +1,5 @@
 package com.iuni.data.avro.client;
 
-import com.iuni.data.avro.common.Constants;
 import com.iuni.data.avro.exceptions.AvroClientException;
 import org.apache.avro.Protocol;
 import org.apache.avro.generic.GenericData;
@@ -9,11 +8,9 @@ import org.apache.avro.ipc.HttpTransceiver;
 import org.apache.avro.ipc.NettyTransceiver;
 import org.apache.avro.ipc.Transceiver;
 import org.apache.avro.ipc.generic.GenericRequestor;
-import org.jackalope.study.avro.HelloWorld.AvroHttpServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URL;
@@ -26,57 +23,13 @@ public abstract class Client {
 
     private static final Logger logger = LoggerFactory.getLogger(Client.class);
 
-    private String name;
-    private Transceiver t;
-    private Protocol protocol;
-    private GenericRequestor requestor;
+    protected String name;
+    protected Transceiver transceiver;
+    protected Protocol protocol;
+    protected GenericRequestor requestor;
 
-    protected Client(){}
+    public Client() {
 
-    public Client(URL url) throws AvroClientException {
-        t = new HttpTransceiver(url);
-        init();
-    }
-
-    public Client(InetSocketAddress inetSocketAddress) throws AvroClientException {
-        try {
-            t = new NettyTransceiver(inetSocketAddress);
-        } catch (IOException e) {
-            String errorStr = new StringBuilder()
-                    .append("create netty transceiver failed, host is: ")
-                    .append(inetSocketAddress.getHostString())
-                    .append(", port is: ")
-                    .append(inetSocketAddress.getPort())
-                    .append("error msg: ")
-                    .append(e.getMessage())
-                    .toString();
-            logger.error(errorStr);
-            throw new AvroClientException(errorStr);
-        }
-        init();
-    }
-
-    private void init() throws AvroClientException {
-        try {
-            protocol = Protocol.parse(new File(AvroHttpServer.class.getResource(Constants.DEFAULT_AVPR).getPath()));
-        } catch (IOException e) {
-            String errorStr = new StringBuilder()
-                    .append("create protocol failed, error msg: ")
-                    .append(e.getMessage())
-                    .toString();
-            logger.error(errorStr);
-            throw new AvroClientException(errorStr);
-        }
-        try {
-            requestor = new GenericRequestor(protocol, t);
-        } catch (IOException e) {
-            String errorStr = new StringBuilder()
-                    .append("create requestor failed, error msg: ")
-                    .append(e.getMessage())
-                    .toString();
-            logger.error(errorStr);
-            throw new AvroClientException(errorStr);
-        }
     }
 
     public void analyzeData() throws AvroClientException {
@@ -112,11 +65,5 @@ public abstract class Client {
     }
     public void setName(String name) {
         this.name = name;
-    }
-    public Protocol getProtocol(){
-        return protocol;
-    }
-    public void setProtocol(Protocol protocol){
-        this.protocol = protocol;
     }
 }

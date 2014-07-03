@@ -1,22 +1,22 @@
 package com.iuni.data.avro;
 
+import com.iuni.data.avro.exceptions.AvroException;
 import com.iuni.data.avro.server.Server;
-import org.jackalope.study.avro.quickStart.QuickStart;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.apache.avro.Protocol;
+import org.jackalope.study.avro.HelloWorld.AvroHttpServer;
+import org.junit.*;
 
-import static org.junit.Assert.*;
+import java.io.File;
 
 public class ServerFactoryTest {
 
-    private String name_http = "avro http server";
-    private String name_netty = "avro netty server";
+    private final String name_http = "avro http server";
+    private final String name_netty = "avro netty server";
+    private static Protocol protocol;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-
+        protocol = ProtocolFactory.create();
     }
 
     @AfterClass
@@ -29,16 +29,20 @@ public class ServerFactoryTest {
 
     }
 
-    @AfterClass
+    @After
     public void tearDown() throws Exception {
 
     }
 
     @Test
-    public void testCreate() throws Exception {
-        Server httpServer = ServerFactory.create(name_http, "http");
+    public void testCreateHttp() throws Exception {
+        Server httpServer = ServerFactory.create(name_http, protocol, "http");
         httpServer.start();
-        Server nettyServer = ServerFactory.create(name_netty, "netty");
+    }
+
+    @Test
+    public void testCreateNetty() throws AvroException {
+        Server nettyServer = ServerFactory.create(name_netty, protocol, "netty");
         nettyServer.start();
     }
 }

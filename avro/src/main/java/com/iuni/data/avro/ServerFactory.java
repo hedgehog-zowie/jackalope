@@ -22,57 +22,6 @@ public class ServerFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(ServerFactory.class);
 
-    public static Server create(String name, String type) throws AvroException {
-        Preconditions.checkNotNull(name, "name");
-        Preconditions.checkNotNull(type, "type");
-        String avprPath = ServerFactory.class.getResource(Constants.DEFAULT_AVPR).getPath();
-        return create(name, avprPath, type);
-    }
-
-    public static Server create(String name, String avprPath, String type) throws AvroException {
-        Preconditions.checkNotNull(name, "name");
-        Preconditions.checkNotNull(avprPath, "avprPath");
-        Preconditions.checkNotNull(type, "type");
-        File file = new File(avprPath);
-        return create(name, file, type);
-    }
-
-    public static Server create(String name, File file, String type) throws AvroException {
-        Preconditions.checkNotNull(name, "name");
-        Preconditions.checkNotNull(file.getAbsolutePath(), "file");
-        Preconditions.checkNotNull(type, "type");
-        Protocol protocol;
-        try {
-            protocol = Protocol.parse(file);
-        } catch (IOException e) {
-            String errorStr = new StringBuilder()
-                    .append("parse protocol from file error, error msg: ")
-                    .append(e.getMessage())
-                    .toString();
-            logger.error(errorStr);
-            throw new AvroException(errorStr);
-        }
-        return create(name, protocol, type);
-    }
-
-    public static Server create(String name, InputStream inputStream, String type) throws AvroException {
-        Preconditions.checkNotNull(name, "name");
-        Preconditions.checkNotNull(inputStream, "inputStream");
-        Preconditions.checkNotNull(type, "type");
-        Protocol protocol;
-        try {
-            protocol = Protocol.parse(inputStream);
-        } catch (IOException e) {
-            String errorStr = new StringBuilder()
-                    .append("parse protocol from inputsteam error, error msg: ")
-                    .append(e.getMessage())
-                    .toString();
-            logger.error(errorStr);
-            throw new AvroException(errorStr);
-        }
-        return create(name, protocol, type);
-    }
-
     public static Server create(String name, Protocol protocol, String type) throws AvroException {
         Preconditions.checkNotNull(name, "name");
         Preconditions.checkNotNull(protocol, "protocol");

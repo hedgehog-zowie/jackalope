@@ -19,7 +19,7 @@ public class Constants {
     /**
      * 默认avro模式地址
      */
-    public static final String DEFAULT_AVPR = "helloWorld.json";
+    public static final String DEFAULT_AVPR = "/helloWorld.json";
 
     /**
      * 获取默认地址
