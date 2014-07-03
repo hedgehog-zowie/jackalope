@@ -26,6 +26,7 @@ public abstract class Client {
 
     private static final Logger logger = LoggerFactory.getLogger(Client.class);
 
+    private String name;
     private Transceiver t;
     private Protocol protocol;
     private GenericRequestor requestor;
@@ -103,4 +104,19 @@ public abstract class Client {
         logger.debug(result.toString());
     }
 
+    /***************************/
+    /****getters and setters****/
+    /***************************/
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public Protocol getProtocol(){
+        return protocol;
+    }
+    public void setProtocol(Protocol protocol){
+        this.protocol = protocol;
+    }
 }

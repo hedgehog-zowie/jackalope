@@ -20,6 +20,11 @@ public class HttpClient extends Client {
         new HttpClient(Constants.getDefaultAddress());
     }
 
+    public HttpClient(String host, int port) throws AvroClientException {
+        String address = new StringBuilder().append("http://").append(host).append(":").append(port).toString();
+        new HttpClient(address);
+    }
+
     public HttpClient(String address) throws AvroClientException {
         URL url;
         try {
