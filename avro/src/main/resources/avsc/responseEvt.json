@@ -1,0 +1,27 @@
+{
+    "namespace": "com.iuni.data.analyze",
+    "name": "ResponseEvt",
+    "type": "record",
+    "fields": [
+        {
+            "name": "transactionId",
+            "type": "string"
+        },
+        {
+            "name": "resultCode",
+            "type": "string"
+        },
+        {
+            "name": "resultCode",
+            "type": {
+                "type": "enum",
+                "name": "ResultCode",
+                "symbols": ["000000", "100001", "100002", "200001", "200002", "200003"]
+            }
+        },
+        {
+            "name": "description",
+            "type": "string"
+        }
+    ]
+}

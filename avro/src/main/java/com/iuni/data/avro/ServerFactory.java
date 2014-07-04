@@ -1,7 +1,6 @@
 package com.iuni.data.avro;
 
 import com.google.common.base.Preconditions;
-import com.iuni.data.avro.common.Constants;
 import com.iuni.data.avro.exceptions.AvroException;
 import com.iuni.data.avro.exceptions.AvroServerException;
 import com.iuni.data.avro.server.Server;
@@ -9,10 +8,6 @@ import com.iuni.data.avro.server.ServerType;
 import org.apache.avro.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * @author Nicholas

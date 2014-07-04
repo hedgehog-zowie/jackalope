@@ -11,9 +11,9 @@ import java.io.IOException;
  * @author Nicholas
  *         Email:   nicholas.chen@iuni.com
  */
-public class HttpServer extends Server {
+public class SimpleHttpServer extends Server {
 
-    private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(SimpleHttpServer.class);
 
     @Override
     public void start() throws AvroServerException {

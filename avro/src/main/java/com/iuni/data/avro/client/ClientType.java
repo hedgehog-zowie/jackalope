@@ -14,16 +14,16 @@ public enum ClientType {
     /**
      * http client type
      *
-     * @see com.iuni.data.avro.client.HttpClient
+     * @see SimpleHttpClient
      */
-    HTTP("com.iuni.data.avro.client.HttpClient"),
+    HTTP("com.iuni.data.avro.client.SimpleHttpClient"),
 
     /**
      * netty client type
      *
-     * @see com.iuni.data.avro.client.NettyClient
+     * @see SimpleNettyClient
      */
-    NETTY("com.iuni.data.avro.client.NettyClient");
+    NETTY("com.iuni.data.avro.client.SimpleNettyClient");
 
     private final String clientClassName;
 

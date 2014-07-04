@@ -11,9 +11,9 @@ import java.net.InetSocketAddress;
  * @author Nicholas
  *         Email:   nicholas.chen@iuni.com
  */
-public class NettyServer extends Server {
+public class SimpleNettyServer extends Server {
 
-    private static final Logger logger = LoggerFactory.getLogger(NettyServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(SimpleNettyServer.class);
 
     @Override
     public void start() throws AvroServerException {

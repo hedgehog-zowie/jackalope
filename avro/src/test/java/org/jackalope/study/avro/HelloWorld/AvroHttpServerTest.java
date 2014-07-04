@@ -12,18 +12,16 @@ import org.junit.Test;
 import java.io.File;
 import java.net.URL;
 
-
-public class AvroHttpServerTest
-{
+public class AvroHttpServerTest {
     private Protocol protocol;
-
+    private Transceiver transceiver;
     private GenericRequestor requestor = null;
 
     @Before
     public void setUp() throws Exception {
         protocol = Protocol.parse(new File(AvroHttpServer.class.getResource(AvroHttpServer.fileName).getPath()));
-        Transceiver t = new HttpTransceiver(new URL("http://localhost:8088"));
-        requestor = new GenericRequestor(protocol, t);
+        transceiver = new HttpTransceiver(new URL("http://localhost:8088"));
+        requestor = new GenericRequestor(protocol, transceiver);
     }
 
     @Test

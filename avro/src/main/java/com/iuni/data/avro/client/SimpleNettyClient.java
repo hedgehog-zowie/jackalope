@@ -19,16 +19,15 @@ import java.net.UnknownHostException;
  * @author Nicholas
  *         Email:   nicholas.chen@iuni.com
  */
-public class NettyClient extends Client {
+public class SimpleNettyClient extends Client {
 
-    private static final Logger logger = LoggerFactory.getLogger(HttpClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(SimpleHttpClient.class);
 
-    public NettyClient() throws AvroException {
-        Protocol protocol = ProtocolFactory.create();
-        new NettyClient(Constants.DEFAULT_HOST, Constants.DEFAULT_PORT, protocol);
+    public SimpleNettyClient() throws AvroException {
+        this(Constants.DEFAULT_HOST, Constants.DEFAULT_PORT, ProtocolFactory.create());
     }
 
-    public NettyClient(String host, Integer port, Protocol protocol) throws AvroClientException {
+    public SimpleNettyClient(String host, Integer port, Protocol protocol) throws AvroClientException {
         InetAddress inetAddress;
         try {
             inetAddress = InetAddress.getByName(host);
@@ -42,15 +41,25 @@ public class NettyClient extends Client {
             logger.error(errorStr);
             throw new AvroClientException(errorStr);
         }
-        new NettyClient(inetAddress, port, protocol);
+        InetSocketAddress inetSocketAddress = new InetSocketAddress(inetAddress, port);
+        initNettyClient(inetSocketAddress, protocol);
     }
 
-    public NettyClient(InetAddress inetAddress, int Port, Protocol protocol) throws AvroClientException {
-        InetSocketAddress inetSocketAddress = new InetSocketAddress(inetAddress, Port);
-        new NettyClient(inetSocketAddress, protocol);
+    public SimpleNettyClient(InetAddress inetAddress, int port, Protocol protocol) throws AvroClientException {
+        this(new InetSocketAddress(inetAddress, port), protocol);
     }
 
-    public NettyClient(InetSocketAddress inetSocketAddress, Protocol protocol) throws AvroClientException {
+    public SimpleNettyClient(InetSocketAddress inetSocketAddress, Protocol protocol) throws AvroClientException {
+        initNettyClient(inetSocketAddress, protocol);
+    }
+
+    /**
+     * 初始化netty client
+     * @param inetSocketAddress
+     * @param protocol
+     * @throws AvroClientException
+     */
+    private void initNettyClient(InetSocketAddress inetSocketAddress, Protocol protocol) throws AvroClientException {
         this.protocol = protocol;
         try {
             transceiver = new NettyTransceiver(inetSocketAddress);
@@ -77,5 +86,7 @@ public class NettyClient extends Client {
             throw new AvroClientException(errorStr);
         }
     }
+
+
 
 }

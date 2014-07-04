@@ -13,15 +13,15 @@ public enum ServerType {
 
     /**
      * http server type
-     * @see com.iuni.data.avro.server.HttpServer
+     * @see SimpleHttpServer
      */
-    HTTP("com.iuni.data.avro.server.HttpServer"),
+    HTTP("com.iuni.data.avro.server.SimpleHttpServer"),
 
     /**
      * netty server type
-     * @see com.iuni.data.avro.server.NettyServer
+     * @see SimpleNettyServer
      */
-    NETTY("com.iuni.data.avro.server.NettyServer");
+    NETTY("com.iuni.data.avro.server.SimpleNettyServer");
 
     private final String serverClassName;
 

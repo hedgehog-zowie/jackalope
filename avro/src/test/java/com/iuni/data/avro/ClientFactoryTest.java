@@ -33,12 +33,14 @@ public class ClientFactoryTest {
     @Test
     public void testCreateHttp() throws Exception {
         Client httpClient = ClientFactory.create(name_http, protocol, "http");
-        httpClient.analyzeData();
+        httpClient.getData();
+        httpClient.close();
     }
 
     @Test
     public void testCreateNetty() throws Exception {
         Client nettyClient = ClientFactory.create(name_netty, protocol, "netty");
-        nettyClient.analyzeData();
+        nettyClient.getData();
+        nettyClient.close();
     }
 }

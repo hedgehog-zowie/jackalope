@@ -54,10 +54,9 @@ public class ClientFactory {
             throw new AvroException(errorStr);
         }
         try {
-//            Client client = clientClass.newInstance();
-            Client client = (Client) constructor.newInstance(host, port, protocol);
-            client.setName(name);
-            return client;
+            Client abstractClient = (Client) constructor.newInstance(host, port, protocol);
+            abstractClient.setName(name);
+            return abstractClient;
         } catch (Exception e) {
             String errorStr = new StringBuilder()
                     .append("Create client failed, type: ")

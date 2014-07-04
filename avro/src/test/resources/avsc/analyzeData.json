@@ -1,0 +1,28 @@
+{
+    "namespace": "com.iuni.data.analyze",
+    "doc": "This is the schema of iuni data analyze",
+    "protocol": "messageProtocol",
+    "name": "analyzeData",
+    "types": [
+        {
+            "name": "requestEvt",
+            "type": "com.iuni.data.analyze.RequestEvt"
+        },
+        {
+            "name": "responseEvt.json",
+            "type": "com.iuni.data.analyze.ResponseEvt"
+        }
+    ],
+    "messages": {
+        "analyzePv": {
+            "doc": "analyze data",
+            "request": [
+                {
+                    "name": "requestEvt",
+                    "type": "com.iuni.data.analyze.RequestEvt"
+                }
+            ],
+            "response": "responseEvt.json"
+        }
+    }
+}

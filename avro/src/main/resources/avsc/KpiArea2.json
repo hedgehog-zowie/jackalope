@@ -1,0 +1,31 @@
+{
+    "namespace": "com.iuni.data.analyze",
+    "name": "AreaKpi",
+    "type": "record",
+    "fields": [
+        {
+            "name": "timeType",
+            "type": "string"
+        },
+        {
+            "name": "location",
+            "type": "com.iuni.data.analyze.Location"
+        },
+        {
+            "name": "totalCount",
+            "type": "long"
+        },
+        {
+            "name": "totalTime",
+            "type": "long"
+        },
+        {
+            "name": "totalSize",
+            "type": "long"
+        },
+        {
+            "name": "avrSpeed",
+            "type": "double"
+        }
+    ]
+}

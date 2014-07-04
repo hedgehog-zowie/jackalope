@@ -3,10 +3,7 @@ package com.iuni.data.avro;
 import com.iuni.data.avro.exceptions.AvroException;
 import com.iuni.data.avro.server.Server;
 import org.apache.avro.Protocol;
-import org.jackalope.study.avro.HelloWorld.AvroHttpServer;
 import org.junit.*;
-
-import java.io.File;
 
 public class ServerFactoryTest {
 

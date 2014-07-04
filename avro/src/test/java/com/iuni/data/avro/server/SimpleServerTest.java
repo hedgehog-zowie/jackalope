@@ -1,10 +1,8 @@
 package com.iuni.data.avro.server;
 
-import com.iuni.data.avro.client.HttpClient;
-import com.iuni.data.avro.client.NettyClient;
 import org.junit.*;
 
-public class ServerTest {
+public class SimpleServerTest {
 
     private static Server httpServer, nettyServer;
 

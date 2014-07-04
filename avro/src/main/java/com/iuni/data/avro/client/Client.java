@@ -4,16 +4,12 @@ import com.iuni.data.avro.exceptions.AvroClientException;
 import org.apache.avro.Protocol;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
-import org.apache.avro.ipc.HttpTransceiver;
-import org.apache.avro.ipc.NettyTransceiver;
 import org.apache.avro.ipc.Transceiver;
 import org.apache.avro.ipc.generic.GenericRequestor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.URL;
 
 /**
  * @author Nicholas
@@ -32,12 +28,11 @@ public abstract class Client {
 
     }
 
-    public void analyzeData() throws AvroClientException {
+    public void getData() throws AvroClientException {
         GenericRecord requestData = new GenericData.Record(protocol.getType("nameMessage"));
         // initiate the request data
         requestData.put("name", "zowie");
 
-        System.out.println(requestData);
         Object result = null;
         try {
             result = requestor.request("sayHello", requestData);
@@ -52,9 +47,21 @@ public abstract class Client {
         if (result instanceof GenericData.Record) {
             GenericData.Record record = (GenericData.Record) result;
             logger.debug(record.get("name").toString());
-            System.out.println(record.get("name"));
         }
         logger.debug(result.toString());
+    }
+
+    public void close() throws AvroClientException {
+        try {
+            this.transceiver.close();
+        } catch (IOException e) {
+            String errorStr = new StringBuilder()
+                    .append("close connection failed, error msg: ")
+                    .append(e.getMessage())
+                    .toString();
+            logger.error(errorStr);
+            throw new AvroClientException(errorStr);
+        }
     }
 
     /***************************/

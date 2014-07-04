@@ -150,8 +150,6 @@ public class IpUtils {
             String city = ipFile.readUTF();
             String county = ipFile.readUTF();
             String isp = ipFile.readUTF();
-            logger.debug("{} -- {} -- {} -- {} -- {} -- {} -- {}",
-                    ipstr, country, area, region, city, county, isp);
             IpInfo ipinfo = new IpInfo();
             ipinfo.setCountry(country);
             ipinfo.setArea(area);
