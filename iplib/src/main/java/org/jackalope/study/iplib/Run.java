@@ -10,7 +10,6 @@ public class Run {
     public static void main(String[] args) throws IpException {
         IpStore ipStore = IpStore.getInstance();
         ipStore.initIpStore();
-
     }
 
     public void testGetResourcePath(){

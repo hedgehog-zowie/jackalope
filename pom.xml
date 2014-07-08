@@ -11,7 +11,9 @@
     <modules>
         <module>iplib</module>
         <module>jackaweb</module>
-        <module>avro</module>
+        <module>rpc</module>
+        <module>configuration</module>
+        <module>application</module>
     </modules>
 
     <properties>
