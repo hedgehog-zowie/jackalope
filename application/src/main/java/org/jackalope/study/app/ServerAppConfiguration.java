@@ -1,5 +1,7 @@
 package org.jackalope.study.app;
 
+import org.jackalope.study.conf.common.AbstractAgentConfiguration;
+import org.jackalope.study.conf.common.AbstractConfiguration;
 import org.jackalope.study.conf.common.BasicConfigurationConstants;
 import org.jackalope.study.conf.common.Context;
 import org.jackalope.study.conf.component.ComponentConfiguration;
@@ -16,18 +18,15 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-public class ServerAppConfiguration {
+public class ServerAppConfiguration extends AbstractConfiguration {
 
     private static final Logger logger = LoggerFactory.getLogger(ServerAppConfiguration.class);
 
-    private final Map<String, AgentConfiguration> appConfigMap;
-    private final LinkedList<ConfigurationError> errors;
-    public static final String NEWLINE = System.getProperty("line.separator", "\n");
-    public static final String INDENTSTEP = "  ";
+    private final Map<String, AgentConfiguration> agentConfigMap;
 
     public ServerAppConfiguration(Map<String, String> properties) {
-        appConfigMap = new HashMap<String, AgentConfiguration>();
-        errors = new LinkedList<ConfigurationError>();
+        super();
+        agentConfigMap = new HashMap<String, AgentConfiguration>();
         for (String name : properties.keySet()) {
             String value = properties.get(name);
             if (!addRawProperty(name, value)) {
@@ -37,36 +36,16 @@ public class ServerAppConfiguration {
         validateConfiguration();
     }
 
-    public List<ConfigurationError> getConfigurationErrors() {
-        return errors;
-    }
+//    public List<ConfigurationError> getConfigurationErrors() {
+//        return errors;
+//    }
+//
+//    public AgentConfiguration getConfigurationFor(String hostname) {
+//        return agentConfigMap.get(hostname);
+//    }
 
-    public AgentConfiguration getConfigurationFor(String hostname) {
-        return appConfigMap.get(hostname);
-    }
-
-    private void validateConfiguration() {
-        Iterator<String> it = appConfigMap.keySet().iterator();
-
-        while (it.hasNext()) {
-            String appName = it.next();
-            AgentConfiguration aconf = appConfigMap.get(appName);
-
-            if (!aconf.isValid()) {
-                logger.warn("App configuration invalid for app '" + appName + "'. It will be removed.");
-                errors.add(new ConfigurationError(appName, "",
-                        ConfigurationErrorType.AGENT_CONFIGURATION_INVALID,
-                        ErrorOrWarning.ERROR));
-                it.remove();
-            }
-            logger.debug("Channels:" + aconf.servers + "\n");
-        }
-
-        logger.info("Post-validation configuration contains configuration"
-                + " for agents: " + appConfigMap.keySet());
-    }
-
-    private boolean addRawProperty(String name, String value) {
+    @Override
+    protected boolean addRawProperty(String name, String value) {
         if (name == null || value == null) {
             errors.add(new ConfigurationError("", "",
                     ConfigurationErrorType.AGENT_NAME_MISSING,
@@ -111,72 +90,90 @@ public class ServerAppConfiguration {
             return false;
         }
 
-        AgentConfiguration sconf = appConfigMap.get(agentName);
+        AgentConfiguration sconf = agentConfigMap.get(agentName);
 
         if (sconf == null) {
             sconf = new AgentConfiguration(agentName, errors);
-            appConfigMap.put(agentName, sconf);
+            agentConfigMap.put(agentName, sconf);
         }
 
         return sconf.addProperty(configKey, value);
     }
 
-    public static class AgentConfiguration {
-        private final String agentName;
+    @Override
+    protected void validateConfiguration() {
+        Iterator<String> it = agentConfigMap.keySet().iterator();
 
-        private String servers;
+        while (it.hasNext()) {
+            String appName = it.next();
+            AgentConfiguration aconf = agentConfigMap.get(appName);
 
-        private final Map<String, ComponentConfiguration> serverConfigMap;
+            if (!aconf.isValid()) {
+                logger.warn("App configuration invalid for app '" + appName + "'. It will be removed.");
+                errors.add(new ConfigurationError(appName, "",
+                        ConfigurationErrorType.AGENT_CONFIGURATION_INVALID,
+                        ErrorOrWarning.ERROR));
+                it.remove();
+            }
+            logger.debug("Channels:" + aconf.getComponents() + "\n");
+        }
 
-        private Map<String, Context> serverContextMap;
+        logger.info("Post-validation configuration contains configuration"
+                + " for agents: " + agentConfigMap.keySet());
+    }
 
-        private Set<String> serverSet;
-
-        private final List<ConfigurationError> errorList;
+    public static class AgentConfiguration extends AbstractAgentConfiguration {
 
         private AgentConfiguration(String agentName, List<ConfigurationError> errorList) {
-            this.agentName = agentName;
-            this.errorList = errorList;
-            this.serverConfigMap = new HashMap<String, ComponentConfiguration>();
-            this.serverContextMap = new HashMap<String, Context>();
+            super(agentName, errorList);
         }
 
-        public String getAgentName() {
-            return agentName;
+        @Override
+        protected boolean addProperty(String key, String value) {
+            if (key.equals(BasicConfigurationConstants.CONFIG_SERVERS)) {
+                if (components == null) {
+                    components = value;
+                    return true;
+                } else {
+                    logger.warn("Duplicate iplib list specified for agent: " + agentName);
+                    errorList.add(new ConfigurationError(agentName,
+                            BasicConfigurationConstants.CONFIG_SERVERS,
+                            ConfigurationErrorType.DUPLICATE_PROPERTY,
+                            ErrorOrWarning.ERROR));
+                    return false;
+                }
+            }
+
+            ComponentNameAndConfigKey cnck = parseConfigKey(key, BasicConfigurationConstants.CONFIG_SERVERS_PREFIX);
+
+            if (cnck != null) {
+                // it is a source
+                String name = cnck.getComponentName();
+                Context srcConf = componentContextMap.get(name);
+
+                if (srcConf == null) {
+                    srcConf = new Context();
+                    componentContextMap.put(name, srcConf);
+                }
+
+                srcConf.put(cnck.getConfigKey(), value);
+                return true;
+            }
+
+            logger.warn("Invalid property specified: " + key);
+            errorList.add(new ConfigurationError(agentName, key, ConfigurationErrorType.INVALID_PROPERTY, ErrorOrWarning.ERROR));
+            return false;
         }
 
-        public Map<String, ComponentConfiguration> getServerConfigMap() {
-            return serverConfigMap;
-        }
-
-        public Map<String, Context> getServerContextMap() {
-            return serverContextMap;
-        }
-
-        public void setServerContextMap(Map<String, Context> serverContextMap) {
-            this.serverContextMap = serverContextMap;
-        }
-
-        public Set<String> getServerSet() {
-            return serverSet;
-        }
-
-        public void setServerSet(Set<String> serverSet) {
-            this.serverSet = serverSet;
-        }
-
-        public List<ConfigurationError> getErrorList() {
-            return errorList;
-        }
-
-        private boolean isValid() {
+        @Override
+        protected boolean isValid() {
             logger.debug("Starting validation of configuration for agent: "
                     + agentName + ", initial-configuration: " + this.getPrevalidationConfig());
 
             // Make sure that at least one channel is specified
-            if (servers == null || servers.trim().length() == 0) {
+            if (components == null || components.trim().length() == 0) {
                 logger.warn("Agent configuration for '" + agentName
-                        + "' does not contain any channels. Marking it as invalid.");
+                        + "' does not contain any servers. Marking it as invalid.");
                 errorList.add(new ConfigurationError(agentName,
                         BasicConfigurationConstants.CONFIG_SERVERS,
                         ConfigurationErrorType.PROPERTY_VALUE_NULL,
@@ -184,12 +181,12 @@ public class ServerAppConfiguration {
                 return false;
             }
 
-            serverSet = new HashSet<String>(Arrays.asList(servers.split("\\s+")));
+            componentSet = new HashSet<String>(Arrays.asList(components.split("\\s+")));
 
-            serverSet = validateServers(serverSet);
-            if (serverSet.size() == 0) {
+            componentSet = validateConponents(componentSet);
+            if (componentSet.size() == 0) {
                 logger.warn("Agent configuration for '" + agentName
-                        + "' does not contain any valid channels. Marking it as invalid.");
+                        + "' does not contain any valid servers. Marking it as invalid.");
                 errorList.add(new ConfigurationError(agentName,
                         BasicConfigurationConstants.CONFIG_SERVERS,
                         ConfigurationErrorType.PROPERTY_VALUE_NULL,
@@ -197,21 +194,22 @@ public class ServerAppConfiguration {
                 return false;
             }
 
-            this.servers = getSpaceDelimitedList(serverSet);
+            this.components = getSpaceDelimitedList(componentSet);
 
-            logger.debug("Post validation configuration for " + agentName + NEWLINE
+            logger.debug("Post validation configuration for " + agentName + "\t"
                     + this.getPostvalidationConfig());
 
             return true;
         }
 
-        private Set<String> validateServers(Set<String> serverSet) {
-            Iterator<String> iter = serverSet.iterator();
+        @Override
+        protected Set<String> validateConponents(Set<String> componentSet) {
+            Iterator<String> iter = componentSet.iterator();
             Map<String, Context> newContextMap = new HashMap<String, Context>();
             org.jackalope.study.conf.server.ServerConfiguration conf = null;
             while (iter.hasNext()) {
                 String serverName = iter.next();
-                Context serverContext = serverContextMap.get(serverName);
+                Context serverContext = componentContextMap.get(serverName);
                 if (serverContext != null) {
                     ServerType serverType = getKnownServer(serverContext.getString(BasicConfigurationConstants.CONFIG_TYPE));
                     boolean configSpecified = false;
@@ -237,7 +235,7 @@ public class ServerAppConfiguration {
                                 !configSpecified) {
                             newContextMap.put(serverName, serverContext);
                         } else if (configSpecified) {
-                            serverConfigMap.put(serverName, conf);
+                            componentConfigMap.put(serverName, conf);
                         }
                         if (conf != null)
                             errorList.addAll(conf.getErrors());
@@ -253,12 +251,12 @@ public class ServerAppConfiguration {
                             ConfigurationErrorType.CONFIG_ERROR, ErrorOrWarning.ERROR));
                 }
             }
-            serverContextMap = newContextMap;
+            componentContextMap = newContextMap;
             Set<String> tempServerSet = new HashSet<String>();
-            tempServerSet.addAll(serverConfigMap.keySet());
-            tempServerSet.addAll(serverContextMap.keySet());
-            serverSet.retainAll(tempServerSet);
-            return serverSet;
+            tempServerSet.addAll(componentConfigMap.keySet());
+            tempServerSet.addAll(componentContextMap.keySet());
+            componentSet.retainAll(tempServerSet);
+            return componentSet;
         }
 
         private ServerType getKnownServer(String type) {
@@ -287,129 +285,5 @@ public class ServerAppConfiguration {
             return sb.toString().trim();
         }
 
-        private static Set<String> stringToSet(String target, String delim) {
-            Set<String> out = new HashSet<String>();
-            if (target == null || target.trim().length() == 0) {
-                return out;
-            }
-            StringTokenizer t = new StringTokenizer(target, delim);
-            while (t.hasMoreTokens()) {
-                out.add(t.nextToken());
-            }
-            return out;
-        }
-
-        public String getPrevalidationConfig() {
-            StringBuilder sb = new StringBuilder("AgentConfiguration[");
-            sb.append(agentName).append("]").append(NEWLINE).append("SOURCES: ");
-            sb.append(serverContextMap).append(NEWLINE).append("CHANNELS: ");
-
-            return sb.toString();
-        }
-
-        public String getPostvalidationConfig() {
-            StringBuilder sb = new StringBuilder(
-                    "AgentConfiguration created without Configuration stubs " +
-                            "for which only basic syntactical validation was performed[");
-            sb.append(agentName).append("]").append(NEWLINE);
-            if (!serverContextMap.isEmpty()) {
-                if (!serverContextMap.isEmpty()) {
-                    sb.append("SOURCES: ").append(serverContextMap).append(NEWLINE);
-                }
-            }
-
-            if (!serverConfigMap.isEmpty()) {
-                sb.append("AgentConfiguration created with Configuration stubs " +
-                        "for which full validation was performed[");
-                sb.append(agentName).append("]").append(NEWLINE);
-
-                if (!serverConfigMap.isEmpty()) {
-                    sb.append("SOURCES: ").append(serverConfigMap).append(NEWLINE);
-                }
-            }
-
-            return sb.toString();
-        }
-
-        private boolean addProperty(String key, String value) {
-            // Check for iplib
-            if (key.equals(BasicConfigurationConstants.CONFIG_SERVERS)) {
-                if (servers == null) {
-                    servers = value;
-                    return true;
-                } else {
-                    logger.warn("Duplicate iplib list specified for agent: " + agentName);
-                    errorList.add(new ConfigurationError(agentName,
-                            BasicConfigurationConstants.CONFIG_IPLIBS,
-                            ConfigurationErrorType.DUPLICATE_PROPERTY,
-                            ErrorOrWarning.ERROR));
-                    return false;
-                }
-            }
-
-            ComponentNameAndConfigKey cnck = parseConfigKey(key, BasicConfigurationConstants.CONFIG_SERVERS_PREFIX);
-
-            if (cnck != null) {
-                // it is a source
-                String name = cnck.getComponentName();
-                Context srcConf = serverContextMap.get(name);
-
-                if (srcConf == null) {
-                    srcConf = new Context();
-                    serverContextMap.put(name, srcConf);
-                }
-
-                srcConf.put(cnck.getConfigKey(), value);
-                return true;
-            }
-
-            logger.warn("Invalid property specified: " + key);
-            errorList.add(new ConfigurationError(agentName, key, ConfigurationErrorType.INVALID_PROPERTY, ErrorOrWarning.ERROR));
-            return false;
-        }
-
-        private ComponentNameAndConfigKey parseConfigKey(String key, String prefix) {
-            // key must start with prefix
-            if (!key.startsWith(prefix)) {
-                return null;
-            }
-
-            // key must have a component name part after the prefix of the format:
-            // <prefix><component-name>.<conf-key>
-            int index = key.indexOf('.', prefix.length() + 1);
-
-            if (index == -1) {
-                return null;
-            }
-
-            String name = key.substring(prefix.length(), index);
-            String configKey = key.substring(prefix.length() + name.length() + 1);
-
-            // name and conf key must be non-empty
-            if (name.length() == 0 || configKey.length() == 0) {
-                return null;
-            }
-
-            return new ComponentNameAndConfigKey(name, configKey);
-        }
-    }
-
-    public static class ComponentNameAndConfigKey {
-
-        private final String componentName;
-        private final String configKey;
-
-        private ComponentNameAndConfigKey(String name, String configKey) {
-            this.componentName = name;
-            this.configKey = configKey;
-        }
-
-        public String getComponentName() {
-            return componentName;
-        }
-
-        public String getConfigKey() {
-            return configKey;
-        }
     }
 }

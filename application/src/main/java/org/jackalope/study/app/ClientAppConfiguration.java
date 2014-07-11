@@ -165,7 +165,7 @@ public class ClientAppConfiguration extends AbstractConfiguration {
 
             if (components == null || components.trim().length() == 0) {
                 logger.warn("Agent configuration for '" + agentName
-                        + "' does not contain any components. Marking it as invalid.");
+                        + "' does not contain any clients. Marking it as invalid.");
                 errorList.add(new ConfigurationError(agentName,
                         BasicConfigurationConstants.CONFIG_CLIENTS,
                         ConfigurationErrorType.PROPERTY_VALUE_NULL,
@@ -178,7 +178,7 @@ public class ClientAppConfiguration extends AbstractConfiguration {
             componentSet = validateConponents(componentSet);
             if (componentSet.size() == 0) {
                 logger.warn("Agent configuration for '" + agentName
-                        + "' does not contain any valid components. Marking it as invalid.");
+                        + "' does not contain any valid clients. Marking it as invalid.");
                 errorList.add(new ConfigurationError(agentName,
                         BasicConfigurationConstants.CONFIG_CLIENTS,
                         ConfigurationErrorType.PROPERTY_VALUE_NULL,
