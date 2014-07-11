@@ -2,6 +2,7 @@ package com.iuni.data.avro.server;
 
 import com.iuni.data.avro.exceptions.RpcServerException;
 import org.apache.avro.Protocol;
+import org.jackalope.study.conf.common.Configurable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * @author Nicholas
  *         Email:   nicholas.chen@iuni.com
  */
-public abstract class Server {
+public abstract class Server implements Configurable {
 
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
 

@@ -7,6 +7,7 @@ import com.iuni.data.avro.exceptions.RpcException;
 import org.apache.avro.Protocol;
 import org.apache.avro.ipc.NettyTransceiver;
 import org.apache.avro.ipc.generic.GenericRequestor;
+import org.jackalope.study.conf.common.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,8 +24,8 @@ public class SimpleNettyClient extends Client {
 
     private static final Logger logger = LoggerFactory.getLogger(SimpleHttpClient.class);
 
-    public SimpleNettyClient() throws RpcException {
-        this(Constants.DEFAULT_HOST, Constants.DEFAULT_PORT, ProtocolFactory.create());
+    public SimpleNettyClient(){
+//        this(Constants.DEFAULT_HOST, Constants.DEFAULT_PORT, ProtocolFactory.create());
     }
 
     public SimpleNettyClient(String host, Integer port, Protocol protocol) throws RpcClientException {
@@ -55,6 +56,7 @@ public class SimpleNettyClient extends Client {
 
     /**
      * 初始化netty client
+     *
      * @param inetSocketAddress
      * @param protocol
      * @throws com.iuni.data.avro.exceptions.RpcClientException
@@ -87,6 +89,26 @@ public class SimpleNettyClient extends Client {
         }
     }
 
-
+    @Override
+    public void configure(Context context) {
+        super.configure(context);
+        InetAddress inetAddress = null;
+        try {
+            inetAddress = InetAddress.getByName(host);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        InetSocketAddress inetSocketAddress = new InetSocketAddress(inetAddress, port);
+        try {
+            transceiver = new NettyTransceiver(inetSocketAddress);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            requestor = new GenericRequestor(protocol, transceiver);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -2,6 +2,7 @@ package com.iuni.data.avro.server;
 
 import com.iuni.data.avro.common.Constants;
 import com.iuni.data.avro.exceptions.RpcServerException;
+import org.jackalope.study.conf.common.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,4 +32,8 @@ public class SimpleHttpServer extends Server {
         super.start();
     }
 
+    @Override
+    public void configure(Context context) {
+        // TODO
+    }
 }

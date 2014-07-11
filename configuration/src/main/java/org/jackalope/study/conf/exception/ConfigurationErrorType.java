@@ -1,5 +1,9 @@
 package org.jackalope.study.conf.exception;
 
+/**
+ * @author Nicholas
+ *         Email:   nicholas.chen@iuni.com
+ */
 public enum ConfigurationErrorType {
     OTHER(null),
     AGENT_CONFIGURATION_INVALID("Agent configuration is invalid."),

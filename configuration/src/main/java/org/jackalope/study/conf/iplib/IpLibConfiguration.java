@@ -1,6 +1,7 @@
 package org.jackalope.study.conf.iplib;
 
 import org.jackalope.study.conf.component.ComponentConfiguration;
+import org.jackalope.study.conf.exception.ConfigurationException;
 
 /**
  * @author Nicholas
@@ -15,25 +16,41 @@ public class IpLibConfiguration extends ComponentConfiguration {
     public enum IpLibConfigurationType {
         OTHER(null),
 
-        /**
-         * iuni iplib
-         *
-         * @see org.jackalope.study.iplib.IuniIpLib
-         */
         IUNI("org.jackalope.study.conf.iplib.IuniIpLibConfiguration"),
         TAOBAO("org.jackalope.study.conf.iplib.TaobaoIpLibConfiguration"),
         PURE("org.jackalope.study.conf.iplib.PureIpLibConfiguration");
-        private String configurationName;
+        private String iplibConfigurationName;
 
-        private IpLibConfigurationType(String configurationName) {
-            this.configurationName = configurationName;
+        private IpLibConfigurationType(String iplib) {
+            this.iplibConfigurationName = iplib;
         }
 
-        public String getConfigurationName() {
-            return this.configurationName;
+        public String getIplibConfigurationName() {
+            return this.iplibConfigurationName;
         }
 
-
+        public IpLibConfiguration getConfiguration(String name) throws ConfigurationException {
+            if (this.equals(IpLibConfigurationType.OTHER)) {
+                return new IpLibConfiguration(name);
+            }
+            Class<? extends IpLibConfiguration> clazz = null;
+            IpLibConfiguration instance = null;
+            try {
+                if (iplibConfigurationName != null) {
+                    clazz = (Class<? extends IpLibConfiguration>) Class.forName(iplibConfigurationName);
+                    instance = clazz.getConstructor(String.class).newInstance(name);
+                } else {
+                    instance = new IpLibConfiguration(name);
+                    instance.setNotFoundConfigClass();
+                }
+            } catch (ClassNotFoundException e) {
+                instance = new IpLibConfiguration(name);
+                instance.setNotFoundConfigClass();
+            } catch (Exception e) {
+                throw new ConfigurationException("Error creating configuration", e);
+            }
+            return instance;
+        }
     }
 
 }

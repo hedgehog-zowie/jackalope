@@ -1,7 +1,7 @@
 package org.jackalope.study.conf.component;
 
-import org.jackalope.study.conf.Context;
-import org.jackalope.study.conf.*;
+import org.jackalope.study.conf.common.BasicConfigurationConstants;
+import org.jackalope.study.conf.common.Context;
 import org.jackalope.study.conf.exception.ConfigurationError;
 import org.jackalope.study.conf.exception.ConfigurationError.ErrorOrWarning;
 import org.jackalope.study.conf.exception.ConfigurationErrorType;
@@ -22,6 +22,8 @@ public abstract class ComponentConfiguration {
     protected boolean configured;
     protected List<ConfigurationError> errors;
     private boolean notFoundConfigClass;
+
+    private static final String INDENTSTEP = "  ";
 
     public boolean isNotFoundConfigClass() {
         return notFoundConfigClass;
@@ -80,15 +82,15 @@ public abstract class ComponentConfiguration {
         StringBuilder indentSb = new StringBuilder("");
 
         for (int i = 0; i < indentCount; i++) {
-            indentSb.append(Configuration.INDENTSTEP);
+            indentSb.append(INDENTSTEP);
         }
 
         String indent = indentSb.toString();
         StringBuilder sb = new StringBuilder(indent);
 
         sb.append("ComponentConfiguration[").append(componentName).append("]");
-        sb.append(Configuration.NEWLINE).append(indent).append(Configuration.INDENTSTEP).append("CONFIG: ");
-        sb.append(Configuration.NEWLINE).append(indent).append(Configuration.INDENTSTEP);
+        sb.append(indent).append(INDENTSTEP).append("CONFIG: ");
+        sb.append(indent).append(INDENTSTEP);
 
         return sb.toString();
     }

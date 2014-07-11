@@ -1,5 +1,9 @@
 package org.jackalope.study.conf.exception;
 
+/**
+ * @author Nicholas
+ *         Email:   nicholas.chen@iuni.com
+ */
 public class ConfigurationError {
     private String componentName;
     private String key;

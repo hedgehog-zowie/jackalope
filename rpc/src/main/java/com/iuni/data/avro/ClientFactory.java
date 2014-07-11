@@ -11,5 +11,7 @@ import org.apache.avro.Protocol;
 public interface ClientFactory {
     Client create(String name, Protocol protocol, String host, Integer port, String type) throws RpcClientException;
 
+    Client create(String name, String type) throws RpcClientException;
+
     Class<? extends Client> getClass(String type) throws RpcClientException;
 }

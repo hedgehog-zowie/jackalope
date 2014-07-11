@@ -22,7 +22,7 @@
                     "type": "com.iuni.data.analyze.RequestEvt"
                 }
             ],
-            "response": "responseEvt.json"
+            "response": "responseEvt"
         }
     }
 }

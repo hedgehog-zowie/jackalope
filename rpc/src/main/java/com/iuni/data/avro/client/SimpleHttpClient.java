@@ -7,6 +7,7 @@ import com.iuni.data.avro.exceptions.RpcException;
 import org.apache.avro.Protocol;
 import org.apache.avro.ipc.HttpTransceiver;
 import org.apache.avro.ipc.generic.GenericRequestor;
+import org.jackalope.study.conf.common.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,46 +24,62 @@ public class SimpleHttpClient extends Client {
     private static final Logger logger = LoggerFactory.getLogger(SimpleHttpClient.class);
 
     public SimpleHttpClient() throws RpcException {
-        this(Constants.getDefaultAddress(), ProtocolFactory.create());
+//        this(Constants.getDefaultAddress(), ProtocolFactory.create());
     }
 
-    public SimpleHttpClient(String host, Integer port, Protocol protocol) throws RpcClientException {
-        this(new StringBuilder().append("http://").append(host).append(":").append(port).toString(), protocol);
-    }
+//    public SimpleHttpClient(String host, Integer port, Protocol protocol) throws RpcClientException {
+//        this(new StringBuilder().append("http://").append(host).append(":").append(port).toString(), protocol);
+//    }
+//
+//    public SimpleHttpClient(String address, Protocol protocol) throws RpcClientException {
+//        URL url;
+//        try {
+//            url = new URL(address);
+//        } catch (MalformedURLException e) {
+//            String errorStr = new StringBuilder()
+//                    .append("create url failed, address is: ")
+//                    .append(address)
+//                    .append(". error msg: ")
+//                    .append(e.getMessage())
+//                    .toString();
+//            logger.error(errorStr);
+//            throw new RpcClientException(errorStr);
+//        }
+//        initHttpClient(url, protocol);
+//    }
 
-    public SimpleHttpClient(String address, Protocol protocol) throws RpcClientException {
-        URL url;
+//    public SimpleHttpClient(URL url, Protocol protocol) throws RpcClientException {
+//        initHttpClient(url, protocol);
+//    }
+
+//    private void initHttpClient() throws RpcClientException {
+//        this.transceiver = new HttpTransceiver(url);
+//        try {
+//            requestor = new GenericRequestor(this.protocol, transceiver);
+//        } catch (IOException e) {
+//            String errorStr = new StringBuilder()
+//                    .append("create requestor failed, error msg: ")
+//                    .append(e.getMessage())
+//                    .toString();
+//            logger.error(errorStr);
+//            throw new RpcClientException(errorStr);
+//        }
+//    }
+
+    @Override
+    public void configure(Context context) {
+        super.configure(context);
+        URL url = null;
         try {
-            url = new URL(address);
+            url = new URL(new StringBuilder().append("http://").append(host).append(":").append(port).toString());
         } catch (MalformedURLException e) {
-            String errorStr = new StringBuilder()
-                    .append("create url failed, address is: ")
-                    .append(address)
-                    .append(". error msg: ")
-                    .append(e.getMessage())
-                    .toString();
-            logger.error(errorStr);
-            throw new RpcClientException(errorStr);
+            e.printStackTrace();
         }
-        initHttpClient(url, protocol);
-    }
-
-    public SimpleHttpClient(URL url, Protocol protocol) throws RpcClientException {
-        initHttpClient(url, protocol);
-    }
-
-    private void initHttpClient(URL url, Protocol protocol) throws RpcClientException {
         this.transceiver = new HttpTransceiver(url);
-        this.protocol = protocol;
         try {
             requestor = new GenericRequestor(this.protocol, transceiver);
         } catch (IOException e) {
-            String errorStr = new StringBuilder()
-                    .append("create requestor failed, error msg: ")
-                    .append(e.getMessage())
-                    .toString();
-            logger.error(errorStr);
-            throw new RpcClientException(errorStr);
+            e.printStackTrace();
         }
     }
 

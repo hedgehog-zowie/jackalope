@@ -9,6 +9,7 @@ public class ClientFactoryTest {
     private final String name_http = "avro http client";
     private final String name_netty = "avro netty client";
     private static Protocol protocol;
+    private static final ClientFactory clientFactory = new DefaultClientFactory();
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -32,14 +33,14 @@ public class ClientFactoryTest {
 
     @Test
     public void testCreateHttp() throws Exception {
-        Client httpClient = DefaultClientFactory.create(name_http, protocol, "http");
+        Client httpClient = clientFactory.create(name_http, "http");
         httpClient.getData();
         httpClient.close();
     }
 
     @Test
     public void testCreateNetty() throws Exception {
-        Client nettyClient = DefaultClientFactory.create(name_netty, protocol, "netty");
+        Client nettyClient = clientFactory.create(name_netty, "netty");
         nettyClient.getData();
         nettyClient.close();
     }

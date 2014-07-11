@@ -1,17 +1,17 @@
 package org.jackalope.study.conf.component;
 
+import org.jackalope.study.conf.client.ClientConfiguration.ClientConfigurationType;
 import org.jackalope.study.conf.exception.ConfigurationException;
-import org.jackalope.study.conf.iplib.IplibType;
-import org.jackalope.study.conf.client.RpcType;
+import org.jackalope.study.conf.iplib.IpLibConfiguration.IpLibConfigurationType;
+import org.jackalope.study.conf.server.ServerConfiguration.ServerConfigurationType;
 
 /**
  * @author Nicholas
  *         Email:   nicholas.chen@iuni.com
  */
 public class ComponentConfigurationFactory {
-    public static ComponentConfiguration
-    create(String name, String type, ComponentType component)
-            throws ConfigurationException {
+    public static ComponentConfiguration create(String name, String type, ComponentType component) throws ConfigurationException {
+
         Class<? extends ComponentConfiguration> confType = null;
 
         if (type == null) {
@@ -25,13 +25,14 @@ public class ComponentConfigurationFactory {
             try {
                 type = type.toUpperCase();
                 switch (component) {
-                    case RPC:
-                        return RpcType.valueOf(type.toUpperCase()).getConfiguration(name);
+                    case SERVER:
+                        return ServerConfigurationType.valueOf(type.toUpperCase()).getConfiguration(name);
+                    case CLIENT:
+                        return ClientConfigurationType.valueOf(type.toUpperCase()).getConfiguration(name);
                     case IPLIB:
-                        return IplibType.valueOf(type.toUpperCase()).getConfiguration(name);
+                        return IpLibConfigurationType.valueOf(type.toUpperCase()).getConfiguration(name);
                     default:
-                        throw new ConfigurationException(
-                                "Cannot create configuration. Unknown Type specified: " + type);
+                        throw new ConfigurationException("Cannot create configuration. Unknown Type specified: " + type);
                 }
             } catch (ConfigurationException e) {
                 throw e;
@@ -40,5 +41,6 @@ public class ComponentConfigurationFactory {
                         " Due to " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
             }
         }
+
     }
 }

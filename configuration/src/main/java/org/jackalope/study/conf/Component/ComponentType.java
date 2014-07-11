@@ -5,9 +5,9 @@ package org.jackalope.study.conf.component;
  *         Email:   nicholas.chen@iuni.com
  */
 public enum ComponentType {
-    OTHER(null),
 
-    RPC("Rpc"),
+    SERVER("Server"),
+    CLIENT("Client"),
     IPLIB("IpLib");
 
     private final String componentType;

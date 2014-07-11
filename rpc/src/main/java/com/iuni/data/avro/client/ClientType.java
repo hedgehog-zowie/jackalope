@@ -1,7 +1,6 @@
 package com.iuni.data.avro.client;
 
 /**
- * 客户端类型
  * @author Nicholas
  *         Email:   nicholas.chen@iuni.com
  */
