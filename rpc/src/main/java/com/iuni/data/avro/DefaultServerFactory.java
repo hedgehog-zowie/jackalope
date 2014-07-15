@@ -16,16 +16,41 @@ public class DefaultServerFactory implements ServerFactory{
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultServerFactory.class);
 
-    public Server create(String name, Protocol protocol, String type) throws RpcServerException {
+//    @Override
+//    public Server create(String name, Protocol protocol, String type) throws RpcServerException {
+//        Preconditions.checkNotNull(name, "name");
+//        Preconditions.checkNotNull(protocol, "protocol");
+//        Preconditions.checkNotNull(type, "type");
+//        logger.info("Creating instance of server: {}, type: {}", name, type);
+//        Class<? extends Server> serverClass = getClass(type);
+//        try {
+//            Server server = serverClass.newInstance();
+//            server.setName(name);
+//            server.setProtocol(protocol);
+//            return server;
+//        } catch (Exception e) {
+//            String errorStr = new StringBuilder()
+//                    .append("Create server failed, type: ")
+//                    .append(type)
+//                    .append(", class: ")
+//                    .append(serverClass.getName())
+//                    .append(". error msg: ")
+//                    .append(e.getMessage())
+//                    .toString();
+//            logger.error(errorStr);
+//            throw new RpcServerException(errorStr);
+//        }
+//    }
+
+    @Override
+    public Server create(String name, String type) throws RpcServerException {
         Preconditions.checkNotNull(name, "name");
-        Preconditions.checkNotNull(protocol, "protocol");
         Preconditions.checkNotNull(type, "type");
         logger.info("Creating instance of server: {}, type: {}", name, type);
         Class<? extends Server> serverClass = getClass(type);
         try {
             Server server = serverClass.newInstance();
             server.setName(name);
-            server.setProtocol(protocol);
             return server;
         } catch (Exception e) {
             String errorStr = new StringBuilder()

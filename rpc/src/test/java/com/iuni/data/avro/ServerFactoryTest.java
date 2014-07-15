@@ -34,13 +34,13 @@ public class ServerFactoryTest {
 
     @Test
     public void testCreateHttp() throws RpcException {
-        Server httpServer = serverFactory.create(name_http, protocol, "http");
+        Server httpServer = serverFactory.create(name_http, "http");
         httpServer.start();
     }
 
     @Test
     public void testCreateNetty() throws RpcException {
-        Server nettyServer = serverFactory.create(name_netty, protocol, "netty");
+        Server nettyServer = serverFactory.create(name_netty, "netty");
         nettyServer.start();
     }
 }

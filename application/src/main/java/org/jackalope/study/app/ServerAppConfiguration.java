@@ -4,7 +4,6 @@ import org.jackalope.study.conf.common.AbstractAgentConfiguration;
 import org.jackalope.study.conf.common.AbstractConfiguration;
 import org.jackalope.study.conf.common.BasicConfigurationConstants;
 import org.jackalope.study.conf.common.Context;
-import org.jackalope.study.conf.component.ComponentConfiguration;
 import org.jackalope.study.conf.component.ComponentConfigurationFactory;
 import org.jackalope.study.conf.component.ComponentType;
 import org.jackalope.study.conf.exception.ConfigurationError;
@@ -35,14 +34,6 @@ public class ServerAppConfiguration extends AbstractConfiguration {
         }
         validateConfiguration();
     }
-
-//    public List<ConfigurationError> getConfigurationErrors() {
-//        return errors;
-//    }
-//
-//    public AgentConfiguration getConfigurationFor(String hostname) {
-//        return agentConfigMap.get(hostname);
-//    }
 
     @Override
     protected boolean addRawProperty(String name, String value) {
@@ -90,14 +81,14 @@ public class ServerAppConfiguration extends AbstractConfiguration {
             return false;
         }
 
-        AgentConfiguration sconf = agentConfigMap.get(agentName);
+        AgentConfiguration aconf = agentConfigMap.get(agentName);
 
-        if (sconf == null) {
-            sconf = new AgentConfiguration(agentName, errors);
-            agentConfigMap.put(agentName, sconf);
+        if (aconf == null) {
+            aconf = new AgentConfiguration(agentName, errors);
+            agentConfigMap.put(agentName, aconf);
         }
 
-        return sconf.addProperty(configKey, value);
+        return aconf.addProperty(configKey, value);
     }
 
     @Override
@@ -109,13 +100,13 @@ public class ServerAppConfiguration extends AbstractConfiguration {
             AgentConfiguration aconf = agentConfigMap.get(appName);
 
             if (!aconf.isValid()) {
-                logger.warn("App configuration invalid for app '" + appName + "'. It will be removed.");
+                logger.warn("Agent configuration invalid for agent '" + appName + "'. It will be removed.");
                 errors.add(new ConfigurationError(appName, "",
                         ConfigurationErrorType.AGENT_CONFIGURATION_INVALID,
                         ErrorOrWarning.ERROR));
                 it.remove();
             }
-            logger.debug("Channels:" + aconf.getComponents() + "\n");
+            logger.debug("Server:" + aconf.getComponents() + "\n");
         }
 
         logger.info("Post-validation configuration contains configuration"
@@ -170,7 +161,6 @@ public class ServerAppConfiguration extends AbstractConfiguration {
             logger.debug("Starting validation of configuration for agent: "
                     + agentName + ", initial-configuration: " + this.getPrevalidationConfig());
 
-            // Make sure that at least one channel is specified
             if (components == null || components.trim().length() == 0) {
                 logger.warn("Agent configuration for '" + agentName
                         + "' does not contain any servers. Marking it as invalid.");
@@ -285,5 +275,10 @@ public class ServerAppConfiguration extends AbstractConfiguration {
             return sb.toString().trim();
         }
 
+    }
+
+    /* Getters */
+    public Map<String, AgentConfiguration> getAgentConfigMap() {
+        return agentConfigMap;
     }
 }

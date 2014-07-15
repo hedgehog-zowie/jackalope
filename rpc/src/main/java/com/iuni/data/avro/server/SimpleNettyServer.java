@@ -18,13 +18,14 @@ public class SimpleNettyServer extends Server {
 
     @Override
     public void start() throws RpcServerException {
-        server = new org.apache.avro.ipc.NettyServer(
-                new Handler(protocol), new InetSocketAddress(Constants.DEFAULT_PORT));
+        server = new org.apache.avro.ipc.NettyServer(new Handler(protocol), new InetSocketAddress(Constants.DEFAULT_PORT));
         super.start();
     }
 
     @Override
     public void configure(Context context) {
-        // TODO
+        super.configure(context);
+//        server = new org.apache.avro.ipc.NettyServer(
+//                new Handler(protocol), new InetSocketAddress(port));
     }
 }

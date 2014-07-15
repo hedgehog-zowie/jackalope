@@ -19,8 +19,7 @@ public class SimpleHttpServer extends Server {
     @Override
     public void start() throws RpcServerException {
         try {
-            server = new org.apache.avro.ipc.HttpServer(
-                    new Handler(protocol), Constants.DEFAULT_PORT);
+            server = new org.apache.avro.ipc.HttpServer(new Handler(protocol), port);
         } catch (IOException e) {
             String errorStr = new StringBuilder()
                     .append("start avro http server failed, error msg: ")
@@ -34,6 +33,18 @@ public class SimpleHttpServer extends Server {
 
     @Override
     public void configure(Context context) {
-        // TODO
+        super.configure(context);
+//        try {
+//            server = new org.apache.avro.ipc.HttpServer(
+//                    new Handler(protocol), port);
+//        } catch (IOException e) {
+//            String errorStr = new StringBuilder()
+//                    .append("start avro http server failed, error msg: ")
+//                    .append(e.getMessage())
+//                    .toString();
+//            logger.error(errorStr);
+//            throw new RpcServerException(errorStr);
+//            e.printStackTrace();
+//        }
     }
 }

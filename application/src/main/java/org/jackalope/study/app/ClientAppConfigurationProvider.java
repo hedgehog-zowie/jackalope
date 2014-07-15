@@ -61,19 +61,18 @@ public class ClientAppConfigurationProvider extends AbstractConfigurationProvide
         Map<String, Client> clientMap = Maps.newHashMap();
 
         Set<String> clientNames = agentConf.getComponentSet();
-        Map<String, ComponentConfiguration> compMap = agentConf.getComponentConfigMap();
 
-        for (String chName : clientNames) {
-            Context context = agentConf.getComponentContextMap().get(chName);
+        for (String name : clientNames) {
+            Context context = agentConf.getComponentContextMap().get(name);
             if (context != null) {
-                Client client = getOrCreateClient(chName, context.getString(BasicConfigurationConstants.CONFIG_TYPE));
+                Client client = getOrCreateClient(name, context.getString(BasicConfigurationConstants.CONFIG_TYPE));
                 try {
                     ConfigUtils.configure(client, context);
-                    clientMap.put(chName, client);
-                    LOGGER.info("Created channel " + chName);
+                    clientMap.put(name, client);
+                    LOGGER.info("Created client " + name);
                 } catch (Exception e) {
-                    String msg = String.format("Channel %s has been removed due to an " +
-                            "error during configuration", chName);
+                    String msg = String.format("Client %s has been removed due to an " +
+                            "error during configuration", name);
                     LOGGER.error(msg, e);
                 }
             }
@@ -82,11 +81,11 @@ public class ClientAppConfigurationProvider extends AbstractConfigurationProvide
     }
 
     private Client getOrCreateClient(String name, String type) throws RpcClientException {
-        Class<? extends Client> channelClass = clientFactory.getClass(type);
-        Map<String, Client> clientMap = clientCache.get(channelClass);
+        Class<? extends Client> clientClass = clientFactory.getClass(type);
+        Map<String, Client> clientMap = clientCache.get(clientClass);
         if (clientMap == null) {
-            clientMap = new HashMap<String, Client>();
-            clientCache.put(channelClass, clientMap);
+            clientMap = Maps.newHashMap();
+            clientCache.put(clientClass, clientMap);
         }
         Client client = clientMap.get(name);
         if (client == null) {

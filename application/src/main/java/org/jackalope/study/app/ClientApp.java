@@ -13,9 +13,6 @@ public class ClientApp {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientApp.class);
 
-    public static final String CONF_MONITOR_CLASS = "flume.monitoring.type";
-    public static final String CONF_MONITOR_PREFIX = "flume.monitoring.";
-
     private static final String cname = "c1";
 
     public static void main(String[] args) {
@@ -39,6 +36,7 @@ public class ClientApp {
             Map<String, Client> clientMap = configurationProvider.loadClients(agentConfiguration);
             for(Client client : clientMap.values()){
                 client.getData();
+                client.close();
             }
         } catch (Exception e) {
             logger.error("A fatal error occurred while running. Exception follows.", e);

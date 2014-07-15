@@ -9,7 +9,7 @@ public final class BasicConfigurationConstants {
     public static final String CONFIG_CLIENTS = "clients";
     public static final String CONFIG_CLIENTS_PREFIX = CONFIG_CLIENTS + ".";
 
-    public static final String CONFIG_SERVERS = "servers.";
+    public static final String CONFIG_SERVERS = "servers";
     public static final String CONFIG_SERVERS_PREFIX = CONFIG_SERVERS + ".";
 
     public static final String CONFIG_IPLIBS = "iplibs";
