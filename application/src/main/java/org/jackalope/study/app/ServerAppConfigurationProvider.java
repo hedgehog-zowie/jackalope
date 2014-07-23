@@ -9,7 +9,6 @@ import org.jackalope.study.conf.common.AbstractConfigurationProvider;
 import org.jackalope.study.conf.common.BasicConfigurationConstants;
 import org.jackalope.study.conf.common.ConfigUtils;
 import org.jackalope.study.conf.common.Context;
-import org.jackalope.study.conf.component.ComponentConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

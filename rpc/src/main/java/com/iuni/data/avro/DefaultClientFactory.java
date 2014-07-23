@@ -5,11 +5,12 @@ import com.iuni.data.avro.client.Client;
 import com.iuni.data.avro.client.ClientType;
 import com.iuni.data.avro.exceptions.RpcClientException;
 import org.apache.avro.Protocol;
-//import org.apache.avro.generic.GenericRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
+
+//import org.apache.avro.generic.GenericRecord;
 
 /**
  * @author Nicholas
@@ -32,7 +33,7 @@ public class DefaultClientFactory implements ClientFactory {
         } catch (NoSuchMethodException e) {
             String errorStr = new StringBuilder()
                     .append("constructor is not exist, error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new RpcClientException(errorStr);
@@ -48,7 +49,7 @@ public class DefaultClientFactory implements ClientFactory {
                     .append(", class: ")
                     .append(clientClass.getName())
                     .append(". error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new RpcClientException(errorStr);
@@ -71,7 +72,7 @@ public class DefaultClientFactory implements ClientFactory {
         } catch (NoSuchMethodException e) {
             String errorStr = new StringBuilder()
                     .append("constructor is not exist, error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new RpcClientException(errorStr);
@@ -87,7 +88,7 @@ public class DefaultClientFactory implements ClientFactory {
                     .append(", class: ")
                     .append(clientClass.getName())
                     .append(". error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new RpcClientException(errorStr);
@@ -115,7 +116,7 @@ public class DefaultClientFactory implements ClientFactory {
                     .append(", class: ")
                     .append(clientClassName)
                     .append("error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new RpcClientException(errorStr);

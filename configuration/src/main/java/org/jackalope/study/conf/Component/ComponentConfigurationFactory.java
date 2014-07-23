@@ -38,7 +38,7 @@ public class ComponentConfigurationFactory {
                 throw e;
             } catch (Exception e) {
                 throw new ConfigurationException("Could not create configuration! " +
-                        " Due to " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
+                        " Due to " + e.getClass().getSimpleName() + ": " + e.getLocalizedMessage(), e);
             }
         }
 

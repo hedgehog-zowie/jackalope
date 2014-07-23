@@ -134,7 +134,7 @@ public class IpStore {
                 String errorStr = new StringBuilder(
                         "IpStore local filepath is not exsit:")
                         .append(filePaths[i]).append(". error msg: ")
-                        .append(e.getMessage()).toString();
+                        .append(e.getLocalizedMessage()).toString();
                 logger.info(errorStr);
             }
             if (inputstream != null)
@@ -147,7 +147,7 @@ public class IpStore {
                     String errorStr = new StringBuilder("IpStore get url error, url is:")
                             .append(urls[i])
                             .append(". error msg: ")
-                            .append(e.getMessage())
+                            .append(e.getLocalizedMessage())
                             .toString();
                     logger.error(errorStr);
                     throw new IpException(errorStr);
@@ -159,7 +159,7 @@ public class IpStore {
                     String errorStr = new StringBuilder("IpStore open url error, url is:")
                             .append(urls[i])
                             .append(". error msg: ")
-                            .append(e.getMessage())
+                            .append(e.getLocalizedMessage())
                             .toString();
                     logger.error(errorStr);
                     throw new IpException(errorStr);
@@ -169,13 +169,13 @@ public class IpStore {
                     reader = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                     String errorStr = new StringBuilder("IpStore read input stream error, encoding is UTF-8. error msg: ")
-                            .append(e.getMessage())
+                            .append(e.getLocalizedMessage())
                             .toString();
                     logger.error(errorStr);
                     throw new IpException(errorStr);
                 } catch (IOException e) {
                     String errorStr = new StringBuilder("IpStore read input stream error, error msg: ")
-                            .append(e.getMessage())
+                            .append(e.getLocalizedMessage())
                             .toString();
                     logger.error(errorStr);
                     throw new IpException(errorStr);
@@ -195,7 +195,7 @@ public class IpStore {
             fileWriter = new FileWriter(filepath, true);
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpStore save ipRange error, error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -213,7 +213,7 @@ public class IpStore {
                 fileWriter.write(str);
             } catch (IOException e) {
                 String errorStr = new StringBuilder("IpStore save ipRange error, error msg: ")
-                        .append(e.getMessage())
+                        .append(e.getLocalizedMessage())
                         .toString();
                 logger.error(errorStr);
                 throw new IpException(errorStr);
@@ -222,7 +222,7 @@ public class IpStore {
                 fileWriter.flush();
             } catch (IOException e) {
                 String errorStr = new StringBuilder("IpStore save ipRange error, error msg: ")
-                        .append(e.getMessage())
+                        .append(e.getLocalizedMessage())
                         .toString();
                 logger.error(errorStr);
                 throw new IpException(errorStr);
@@ -232,7 +232,7 @@ public class IpStore {
             fileWriter.close();
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpStore save ipRange error, close ipRange file error, error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -282,7 +282,7 @@ public class IpStore {
             }
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpStore get ip range error. error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -291,7 +291,7 @@ public class IpStore {
             reader.close();
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpStore close buffer error. error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -427,7 +427,7 @@ public class IpStore {
             String errorStr = new StringBuilder("IpStore local apnicPath is not exsit:")
                     .append(ipUtils.iplibPath)
                     .append(". error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -439,7 +439,7 @@ public class IpStore {
             String errorStr = new StringBuilder("IpStore get ip range error, file not found, file path is:")
                     .append(ipUtils.iplibPath)
                     .append(". error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -451,7 +451,7 @@ public class IpStore {
             randomFile.writeInt(firstStartIpPos);
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpStore save first start ip error. error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -463,7 +463,7 @@ public class IpStore {
             randomFile.writeInt(lastStartIpPos);
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpStore save last start ip error. error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -474,7 +474,7 @@ public class IpStore {
             randomFile.writeInt(storeSize);
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpStore save store size error. error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -485,7 +485,7 @@ public class IpStore {
             randomFile.writeLong(ipNum);
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpStore save ip number error. error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -550,7 +550,7 @@ public class IpStore {
                 }
             } catch (Exception e) {
                 String errorStr = new StringBuilder("IpStore save ip info error. error msg: ")
-                        .append(e.getMessage())
+                        .append(e.getLocalizedMessage())
                         .toString();
                 logger.error(errorStr);
                 throw new IpException(errorStr);
@@ -565,7 +565,7 @@ public class IpStore {
             randomFile.writeLong(ipNum);
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpStore update ip number error. error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -575,7 +575,7 @@ public class IpStore {
             randomFile.close();
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpStore close file error: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -602,7 +602,7 @@ public class IpStore {
             }
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpStore prepare country info error. error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -624,7 +624,7 @@ public class IpStore {
             file.createNewFile();
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpStore prepare ip lib file error, create lib file failed. error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);

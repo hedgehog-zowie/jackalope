@@ -75,7 +75,7 @@ public class IpUtils {
             String errorStr = new StringBuilder("IpStore local apnicPath is not exsit:")
                     .append(iplibPath)
                     .append(". error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.info(errorStr);
             // init ipstore
@@ -88,7 +88,7 @@ public class IpUtils {
             String errorStr = new StringBuilder("IpUtils init failed, not found ip lib file. iplibPath is:")
                     .append(iplibFilePath)
                     .append(". error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -98,7 +98,7 @@ public class IpUtils {
             ipEnd = ipFile.readInt();
         } catch (IOException e) {
             String errorStr = new StringBuilder("IpUtils init failed, read head info failed. error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -121,7 +121,7 @@ public class IpUtils {
             String errorStr = new StringBuilder("Transfer ipstr to ipinfo error. ipstr is:")
                     .append(ipinfoStr)
                     .append(",err msg:")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -164,7 +164,7 @@ public class IpUtils {
                     .append(". endIpPos is: ")
                     .append(endIpPos)
                     .append(". error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -188,7 +188,7 @@ public class IpUtils {
             ret[3] = (byte) (Integer.parseInt(st.nextToken()) & 0xFF);
         } catch (Exception e) {
             String errorStr = new StringBuilder("IpUtils trans ip string to byte error, error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
@@ -212,7 +212,7 @@ public class IpUtils {
             String errorStr = new StringBuilder(
                     "IpUtils readip from file error, offset is:")
                     .append(offset).append(". error msg: ")
-                    .append(e.getMessage()).toString();
+                    .append(e.getLocalizedMessage()).toString();
             logger.error(errorStr);
             throw new IpException(errorStr);
         }
@@ -366,7 +366,7 @@ public class IpUtils {
         } catch (Exception e) {
             String errorStr = new StringBuilder(
                     "get ipinfo from taobao iplib error. url is:").append(url)
-                    .append(", err msg:").append(e.getMessage()).toString();
+                    .append(", err msg:").append(e.getLocalizedMessage()).toString();
             logger.error(errorStr);
             failTimes += 1;
             if (failTimes == maxFailTime)

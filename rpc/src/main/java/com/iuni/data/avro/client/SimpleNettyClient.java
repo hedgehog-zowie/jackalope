@@ -37,7 +37,7 @@ public class SimpleNettyClient extends Client {
                     .append("create netty client failed: unknown host, host is: ")
                     .append(host)
                     .append("error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new RpcClientException(errorStr);
@@ -72,7 +72,7 @@ public class SimpleNettyClient extends Client {
                     .append(", port is: ")
                     .append(inetSocketAddress.getPort())
                     .append("error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new RpcClientException(errorStr);
@@ -82,7 +82,7 @@ public class SimpleNettyClient extends Client {
         } catch (IOException e) {
             String errorStr = new StringBuilder()
                     .append("create requestor failed, error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new RpcClientException(errorStr);
@@ -96,18 +96,20 @@ public class SimpleNettyClient extends Client {
         try {
             inetAddress = InetAddress.getByName(host);
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            logger.error("config client - create url error, host is: {}, error msg is: {}", host, e.getLocalizedMessage());
         }
         InetSocketAddress inetSocketAddress = new InetSocketAddress(inetAddress, port);
         try {
             transceiver = new NettyTransceiver(inetSocketAddress);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("config client - create url error, host is: {}, port is: {}", host, port);
+            logger.error("error msg is: {}", e.getLocalizedMessage());
         }
         try {
             requestor = new GenericRequestor(protocol, transceiver);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("config client - create url error, host is: {}, port is: {}", host, port);
+            logger.error("error msg is: {}", e.getLocalizedMessage());
         }
     }
 

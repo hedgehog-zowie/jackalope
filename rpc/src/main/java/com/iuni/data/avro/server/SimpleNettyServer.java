@@ -25,7 +25,5 @@ public class SimpleNettyServer extends Server {
     @Override
     public void configure(Context context) {
         super.configure(context);
-//        server = new org.apache.avro.ipc.NettyServer(
-//                new Handler(protocol), new InetSocketAddress(port));
     }
 }

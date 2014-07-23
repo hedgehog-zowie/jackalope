@@ -24,7 +24,7 @@ public class Utils {
 			ret[2] = (byte) (Integer.parseInt(st.nextToken()) & 0xFF);
 			ret[3] = (byte) (Integer.parseInt(st.nextToken()) & 0xFF);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
 		}
 		return ret;
 	}

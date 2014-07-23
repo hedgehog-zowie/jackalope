@@ -69,6 +69,8 @@ public class AvroUtilsTest {
     private static final String responseEvtAreaPath = "/avsc/responseEvtArea.json";
     private static final String responseEvtUserPagePath = "/avsc/responseEvtUserPage.json";
 
+    private static final String analyzeDataPagePath = "/avsc/analyzeData.json";
+
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         file = new File(fileName);

@@ -108,7 +108,7 @@ public class ClientAppConfiguration extends AbstractConfiguration {
                         ConfigurationError.ErrorOrWarning.ERROR));
                 it.remove();
             }
-            logger.debug("Channels:" + aconf.getComponents() + "\n");
+            logger.debug("Clients:" + aconf.getComponents() + "\n");
         }
 
         logger.info("Post-validation configuration contains configuration"
@@ -128,7 +128,7 @@ public class ClientAppConfiguration extends AbstractConfiguration {
                     components = value;
                     return true;
                 } else {
-                    logger.warn("Duplicate iplib list specified for agent: " + agentName);
+                    logger.warn("Duplicate client list specified for agent: " + agentName);
                     errorList.add(new ConfigurationError(agentName,
                             BasicConfigurationConstants.CONFIG_CLIENTS,
                             ConfigurationErrorType.DUPLICATE_PROPERTY,
@@ -140,7 +140,6 @@ public class ClientAppConfiguration extends AbstractConfiguration {
             ComponentNameAndConfigKey cnck = parseConfigKey(key, BasicConfigurationConstants.CONFIG_CLIENTS_PREFIX);
 
             if (cnck != null) {
-                // it is a source
                 String name = cnck.getComponentName();
                 Context srcConf = componentContextMap.get(name);
 
@@ -219,7 +218,7 @@ public class ClientAppConfiguration extends AbstractConfiguration {
                     }
                     try {
                         conf = (ClientConfiguration) ComponentConfigurationFactory.create(componentName, config, ComponentType.CLIENT);
-                        logger.debug("Created server " + componentName);
+                        logger.debug("Created client " + componentName);
                         if (conf != null) {
                             conf.configure(componentContext);
                         }
@@ -233,7 +232,7 @@ public class ClientAppConfiguration extends AbstractConfiguration {
                     } catch (ConfigurationException e) {
                         if (conf != null) errorList.addAll(conf.getErrors());
                         iter.remove();
-                        logger.warn("Could not configure channel " + componentName + " due to: " + e.getMessage(), e);
+                        logger.warn("Could not configure client " + componentName + " due to: " + e.getLocalizedMessage(), e);
                     }
                 } else {
                     iter.remove();

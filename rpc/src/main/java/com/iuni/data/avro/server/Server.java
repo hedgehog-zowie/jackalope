@@ -2,6 +2,8 @@ package com.iuni.data.avro.server;
 
 import com.google.common.base.Preconditions;
 import com.iuni.data.avro.ProtocolFactory;
+import com.iuni.data.avro.common.AvroUtils;
+import com.iuni.data.avro.common.Constants;
 import com.iuni.data.avro.exceptions.RpcException;
 import com.iuni.data.avro.exceptions.RpcServerException;
 import org.apache.avro.Protocol;
@@ -9,6 +11,8 @@ import org.jackalope.study.conf.common.Configurable;
 import org.jackalope.study.conf.common.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 /**
  * @author Nicholas
@@ -24,21 +28,7 @@ public abstract class Server implements Configurable {
     protected Protocol protocol;
     protected org.apache.avro.ipc.Server server;
 
-    protected final Integer default_port = 8088;
-    protected final String default_protopath = "/helloWorld.json";
-
     public void start() throws RpcServerException {
-//        try {
-//            server.start();
-//            server.join();
-//        } catch (InterruptedException e) {
-//            String errorStr = new StringBuilder()
-//                    .append("start avro http serverl failed, error msg: ")
-//                    .append(e.getMessage())
-//                    .toString();
-//            logger.error(errorStr);
-//            throw new RpcServerException(errorStr);
-//        }
         server.start();
     }
 
@@ -48,7 +38,7 @@ public abstract class Server implements Configurable {
         }catch (Exception e){
             String errorStr = new StringBuilder()
                     .append("stop avro http server failed, error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new RpcServerException(errorStr);
@@ -57,17 +47,17 @@ public abstract class Server implements Configurable {
 
     @Override
     public void configure(Context context) {
-        port = context.getInteger("port", default_port);
+        port = context.getInteger("port", Constants.DEFAULT_PORT);
         Preconditions.checkNotNull(port, "Port name cannot be empty, please specify in configuration file");
         if(port <=0 || port > 65535) {
-            port = default_port;
-            logger.warn("Invalid port specified, initializing client to default capacity of {}", default_port);
+            port = Constants.DEFAULT_PORT;
+            logger.warn("Invalid port specified, initializing client to default capacity of {}", Constants.DEFAULT_PORT);
         }
-        protopath = context.getString("protopath", default_protopath);
+        protopath = context.getString("protopath", Constants.DEFAULT_AVPR);
         try {
-            protocol = ProtocolFactory.create(this.getClass().getResourceAsStream(protopath));
+            protocol = ProtocolFactory.create(protopath);
         } catch (RpcException e) {
-            e.printStackTrace();
+            logger.error("config server - create protocol error, protopath is: {}, error msg is: {}", protopath, e.getLocalizedMessage());
         }
     }
 

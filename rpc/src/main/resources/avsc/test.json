@@ -1,0 +1,6 @@
+{"doc": "analyze pv data", "request": [
+    {
+        "name": "req",
+        "type": "RequestEvtPv"
+    }
+], "response": "responseEvtPv"}

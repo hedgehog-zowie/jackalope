@@ -53,7 +53,7 @@ public class ProtobufSerializer implements ISerializer {
           method =  Class.forName(classname).getMethod(METHODNME, null);
         } catch (Exception e) {
           e.printStackTrace();
-          throw new RuntimeException(e.getMessage());
+          throw new RuntimeException(e.getLocalizedMessage());
         }
         methodCache.put(classname, method);
       }
@@ -64,7 +64,7 @@ public class ProtobufSerializer implements ISerializer {
         result[i] = ((Builder)method.invoke(method.getClass(), null)).mergeFrom(arg).build();
       } catch (Exception e) {
         e.printStackTrace();
-        throw new RuntimeException(e.getMessage());
+        throw new RuntimeException(e.getLocalizedMessage());
       }
     }
     if(context.isRequest())

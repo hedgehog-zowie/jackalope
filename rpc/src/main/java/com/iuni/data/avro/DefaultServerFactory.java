@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.iuni.data.avro.exceptions.RpcServerException;
 import com.iuni.data.avro.server.Server;
 import com.iuni.data.avro.server.ServerType;
-import org.apache.avro.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,32 +14,6 @@ import org.slf4j.LoggerFactory;
 public class DefaultServerFactory implements ServerFactory{
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultServerFactory.class);
-
-//    @Override
-//    public Server create(String name, Protocol protocol, String type) throws RpcServerException {
-//        Preconditions.checkNotNull(name, "name");
-//        Preconditions.checkNotNull(protocol, "protocol");
-//        Preconditions.checkNotNull(type, "type");
-//        logger.info("Creating instance of server: {}, type: {}", name, type);
-//        Class<? extends Server> serverClass = getClass(type);
-//        try {
-//            Server server = serverClass.newInstance();
-//            server.setName(name);
-//            server.setProtocol(protocol);
-//            return server;
-//        } catch (Exception e) {
-//            String errorStr = new StringBuilder()
-//                    .append("Create server failed, type: ")
-//                    .append(type)
-//                    .append(", class: ")
-//                    .append(serverClass.getName())
-//                    .append(". error msg: ")
-//                    .append(e.getMessage())
-//                    .toString();
-//            logger.error(errorStr);
-//            throw new RpcServerException(errorStr);
-//        }
-//    }
 
     @Override
     public Server create(String name, String type) throws RpcServerException {
@@ -59,7 +32,7 @@ public class DefaultServerFactory implements ServerFactory{
                     .append(", class: ")
                     .append(serverClass.getName())
                     .append(". error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new RpcServerException(errorStr);
@@ -86,7 +59,7 @@ public class DefaultServerFactory implements ServerFactory{
                     .append(", class: ")
                     .append(serverClassName)
                     .append("error msg: ")
-                    .append(e.getMessage())
+                    .append(e.getLocalizedMessage())
                     .toString();
             logger.error(errorStr);
             throw new RpcServerException(errorStr);

@@ -126,7 +126,7 @@ public class ServerAppConfiguration extends AbstractConfiguration {
                     components = value;
                     return true;
                 } else {
-                    logger.warn("Duplicate iplib list specified for agent: " + agentName);
+                    logger.warn("Duplicate server list specified for agent: " + agentName);
                     errorList.add(new ConfigurationError(agentName,
                             BasicConfigurationConstants.CONFIG_SERVERS,
                             ConfigurationErrorType.DUPLICATE_PROPERTY,
@@ -138,7 +138,6 @@ public class ServerAppConfiguration extends AbstractConfiguration {
             ComponentNameAndConfigKey cnck = parseConfigKey(key, BasicConfigurationConstants.CONFIG_SERVERS_PREFIX);
 
             if (cnck != null) {
-                // it is a source
                 String name = cnck.getComponentName();
                 Context srcConf = componentContextMap.get(name);
 
@@ -232,8 +231,8 @@ public class ServerAppConfiguration extends AbstractConfiguration {
                     } catch (ConfigurationException e) {
                         if (conf != null) errorList.addAll(conf.getErrors());
                         iter.remove();
-                        logger.warn("Could not configure channel " + serverName
-                                + " due to: " + e.getMessage(), e);
+                        logger.warn("Could not configure server " + serverName
+                                + " due to: " + e.getLocalizedMessage(), e);
                     }
                 } else {
                     iter.remove();

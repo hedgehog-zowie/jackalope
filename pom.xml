@@ -18,6 +18,7 @@
 
     <properties>
         <junit.version>4.11</junit.version>
+        <contiperf.version>2.1.0</contiperf.version>
         <sfl4j.version>1.7.7</sfl4j.version>
     </properties>
 
@@ -26,6 +27,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.databene</groupId>
+            <artifactId>contiperf</artifactId>
+            <version>${contiperf.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

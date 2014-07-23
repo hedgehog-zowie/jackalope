@@ -34,8 +34,8 @@ public class ServerApp {
             ServerAppConfigurationProvider configurationProvider = new ServerAppConfigurationProvider("data", configurationFile);
             ServerAppConfiguration.AgentConfiguration agentConfiguration = configurationProvider.getConfiguration().getAgentConfigMap().get("data");
 
-            Map<String, Server> clientMap = configurationProvider.loadServers(agentConfiguration);
-            for(Server server : clientMap.values()){
+            Map<String, Server> serverMap = configurationProvider.loadServers(agentConfiguration);
+            for(Server server : serverMap.values()){
                 server.start();
             }
         } catch (Exception e) {

@@ -9,7 +9,6 @@ import org.jackalope.study.conf.common.AbstractConfigurationProvider;
 import org.jackalope.study.conf.common.BasicConfigurationConstants;
 import org.jackalope.study.conf.common.ConfigUtils;
 import org.jackalope.study.conf.common.Context;
-import org.jackalope.study.conf.component.ComponentConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +16,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * @author Nicholas
@@ -71,8 +73,7 @@ public class ClientAppConfigurationProvider extends AbstractConfigurationProvide
                     clientMap.put(name, client);
                     LOGGER.info("Created client " + name);
                 } catch (Exception e) {
-                    String msg = String.format("Client %s has been removed due to an " +
-                            "error during configuration", name);
+                    String msg = String.format("Client %s has been removed due to an error during configuration", name);
                     LOGGER.error(msg, e);
                 }
             }

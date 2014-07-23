@@ -55,7 +55,7 @@ public class IpStoreTest {
             startIp[2] = (byte) (Integer.parseInt(st.nextToken()) & 0xFF);
             startIp[3] = (byte) (Integer.parseInt(st.nextToken()) & 0xFF);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getLocalizedMessage());
         }
         int[] ipInt = new int[4];
         ipInt[0] = (int) (startIp[0] & 0xFF);
