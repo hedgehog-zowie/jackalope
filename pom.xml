@@ -16,6 +16,12 @@
         <module>application</module>
     </modules>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.1.7.RELEASE</version>
+    </parent>
+
     <properties>
         <junit.version>4.11</junit.version>
         <contiperf.version>2.1.0</contiperf.version>
@@ -35,11 +41,11 @@
             <version>${contiperf.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${sfl4j.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>slf4j-log4j12</artifactId>-->
+            <!--<version>${sfl4j.version}</version>-->
+        <!--</dependency>-->
     </dependencies>
 
 </project>

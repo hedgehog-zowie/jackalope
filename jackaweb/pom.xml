@@ -7,12 +7,42 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jackaweb</artifactId>
-    <packaging>war</packaging>
-    <name>jackaweb Maven Webapp</name>
-    <url>http://maven.apache.org</url>
+    <!-- for jar -->
+    <packaging>jar</packaging>
+    <!-- for war -->
+    <!--<packaging>war</packaging>-->
+    <name>jackaweb Webapp</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- for war -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <start-class>org.jackalope.study.jackaweb.Application</start-class>
+    </properties>
 
     <build>
-        <finalName>jackaweb</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
