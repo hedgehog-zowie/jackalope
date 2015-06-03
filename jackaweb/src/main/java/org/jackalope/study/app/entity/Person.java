@@ -1,8 +1,8 @@
-package org.jackalope.study.jackaweb.entity;
+package org.jackalope.study.app.entity;
 
 /**
- * @author Nicholas
- *         Email:   nicholas.chen@iuni.com
+ * @author zowie
+ *         Email:   hedgehog.zowie@gmail.com
  */
 public class Person {
     private String name;

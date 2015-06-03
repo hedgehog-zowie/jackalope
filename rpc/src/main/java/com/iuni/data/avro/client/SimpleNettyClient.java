@@ -1,9 +1,6 @@
 package com.iuni.data.avro.client;
 
-import com.iuni.data.avro.ProtocolFactory;
-import com.iuni.data.avro.common.Constants;
 import com.iuni.data.avro.exceptions.RpcClientException;
-import com.iuni.data.avro.exceptions.RpcException;
 import org.apache.avro.Protocol;
 import org.apache.avro.ipc.NettyTransceiver;
 import org.apache.avro.ipc.generic.GenericRequestor;

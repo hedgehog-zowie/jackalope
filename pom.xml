@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.1.7.RELEASE</version>
+        <version>1.1.8.RELEASE</version>
     </parent>
 
     <properties>
@@ -41,11 +41,6 @@
             <version>${contiperf.version}</version>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.slf4j</groupId>-->
-            <!--<artifactId>slf4j-log4j12</artifactId>-->
-            <!--<version>${sfl4j.version}</version>-->
-        <!--</dependency>-->
     </dependencies>
 
 </project>

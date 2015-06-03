@@ -2,8 +2,6 @@ package org.jackalope.study.avro.quickStart;
 
 import org.junit.*;
 
-import static org.junit.Assert.*;
-
 public class QuickStartTest {
 
     private static QuickStart quickStart;

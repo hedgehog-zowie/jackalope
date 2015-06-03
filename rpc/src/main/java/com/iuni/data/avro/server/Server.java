@@ -2,7 +2,6 @@ package com.iuni.data.avro.server;
 
 import com.google.common.base.Preconditions;
 import com.iuni.data.avro.ProtocolFactory;
-import com.iuni.data.avro.common.AvroUtils;
 import com.iuni.data.avro.common.Constants;
 import com.iuni.data.avro.exceptions.RpcException;
 import com.iuni.data.avro.exceptions.RpcServerException;
@@ -11,8 +10,6 @@ import org.jackalope.study.conf.common.Configurable;
 import org.jackalope.study.conf.common.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 /**
  * @author Nicholas
