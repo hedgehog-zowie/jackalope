@@ -12,6 +12,7 @@
         <module>designPattern</module>
         <module>interview</module>
         <module>corejava</module>
+        <module>java8</module>
     </modules>
 
     <parent>
